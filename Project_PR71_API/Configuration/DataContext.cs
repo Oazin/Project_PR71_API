@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Project_PR71_API.Configuration;
+using Project_PR71_API.Models;
 
-namespace Project_PR71_API.Models
+namespace Project_PR71_API.Configuration
 {
     public class DataContext : DbContext
     {

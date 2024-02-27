@@ -1,12 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Project_PR71_API.Models;
+using Project_PR71_API.Configuration;
 using Project_PR71_API.Services;
 
 namespace Project_PR71_API
 {
     public class Startup
     {
-        //var builder = WebApplication.CreateBuilder(args);
 
         public Startup(IConfiguration configuration) 
         {
@@ -27,7 +26,7 @@ namespace Project_PR71_API
 
             services.AddMvc();
             services.AddHttpClient();
-            services.AddEntityFrameworkNpgsql().AddDbContext<Models.DataContext>( opt =>
+            services.AddEntityFrameworkNpgsql().AddDbContext<DataContext>( opt =>
             {
                 opt.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"));
                 opt.EnableSensitiveDataLogging(true);

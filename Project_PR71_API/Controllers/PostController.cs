@@ -18,10 +18,34 @@ namespace Project_PR71_API.Controllers
             this.postService = postService;
         }
 
-        [HttpGet("{userId}", Name = "GetPostByUser")]
-        public ICollection<Post> GetByUser(int userId)
+        [HttpGet("{userEmail}", Name = "GetPostsByUser")]
+        public ICollection<Post> GetPostsByUser(string userEmail)
         {
-            return postService.GetByUser(userId);
+            return postService.GetPostsByUser(userEmail);
+        }
+
+        [HttpPost("{userEmail}", Name = "AddPost")]
+        public bool AddPost(string userEmail, Post post)
+        {
+            return postService.AddPost(userEmail, post);
+        }
+
+        [HttpPatch("{postId}", Name = "UpdatePost")]
+        public bool UpdatePost(int postId, Post post)
+        {
+            return postService.UpdatePost(postId, post);
+        }
+
+        [HttpPatch("{postId}/{likes}", Name = "AddLikes")]
+        public bool AddLikes(int postId, int likes)
+        {
+            return postService.AddLikes(postId, likes);
+        }
+
+        [HttpDelete("{postId}", Name = "DeletePost")]
+        public bool DeletePost(int postId)
+        {
+            return postService.DeletePost(postId);
         }
     }
 }

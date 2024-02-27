@@ -4,6 +4,14 @@ namespace Project_PR71_API.Services
 {
     public interface IPostService
     {
-        public ICollection<Post> GetByUser(int userId);
+        public ICollection<Post> GetPostsByUser(string userEmail);
+
+        public bool AddPost(string userEmail, Post post);
+
+        public bool DeletePost(int postId);
+
+        public bool UpdatePost(int postId, Post post);
+
+        public bool AddLikes(int postId, int likes);
     }
 }

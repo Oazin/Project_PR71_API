@@ -9,16 +9,16 @@ namespace Project_PR71_API.Configuration
         public void Configure(EntityTypeBuilder<User> builder)
         {
             // Columns configuration 
-            builder.Property(e => e.email).IsRequired();
+            builder.Property(e => e.Email).IsRequired();
             builder.Property(e => e.Picture).IsRequired().HasColumnType("bytea");
             builder.Property(e => e.Username);
             builder.Property(e => e.Bio);
             builder.Property(e => e.Name).IsRequired();
-            builder.Property(e => e.Fistname).IsRequired();
+            builder.Property(e => e.Firstname).IsRequired();
             
             // Primary key 
-            builder.HasKey(e => e.email);
-            builder.HasIndex(e => e.email).IsUnique();
+            builder.HasKey(e => e.Email);
+            builder.HasIndex(e => e.Email).IsUnique();
 
             // Relationship with Post
             builder.HasMany(e => e.Posts)

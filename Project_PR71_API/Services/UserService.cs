@@ -1,4 +1,5 @@
-﻿using Project_PR71_API.Models;
+﻿using Project_PR71_API.Configuration;
+using Project_PR71_API.Models;
 
 namespace Project_PR71_API.Services
 {
@@ -11,9 +12,9 @@ namespace Project_PR71_API.Services
             this.dataContext = dataContext;
         }
 
-        public ICollection<Post> GetPosts(int idUser)
+        public ICollection<Post> GetPosts(string userEmail)
         {
-            return dataContext.Post.Where(x => x.User.Id == idUser).OrderBy(x => x.DateTime).ToList();
+            return dataContext.Post.Where(x => x.User.Email == userEmail).OrderBy(x => x.DateTime).ToList();
         }
     }
 }
