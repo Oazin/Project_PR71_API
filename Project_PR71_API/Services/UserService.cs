@@ -12,9 +12,9 @@ namespace Project_PR71_API.Services
             this.dataContext = dataContext;
         }
 
-        public ICollection<Post> GetPosts(string userEmail)
+        public bool AddUser(User user)
         {
-            return dataContext.Post.Where(x => x.User.Email == userEmail).OrderBy(x => x.DateTime).ToList();
+            return true;
         }
     }
 }
