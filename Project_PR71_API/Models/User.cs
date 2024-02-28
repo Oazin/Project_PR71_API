@@ -10,10 +10,10 @@
 
         public string? Bio { get; set; }
 
-        public byte[] Picture { get; set; }
+        public byte[]? Picture { get; set; }
 
         public string? Username { get; set; }
 
-        public ICollection<Post> Posts { get; set; }
+        public ICollection<Post>? Posts { get; set; }
     }
 }

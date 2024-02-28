@@ -1,5 +1,9 @@
-﻿using Project_PR71_API.Configuration;
+﻿using MailKit.Net.Smtp;
+using MailKit.Security;
+using MimeKit;
+using Project_PR71_API.Configuration;
 using Project_PR71_API.Models;
+using System.Diagnostics;
 
 namespace Project_PR71_API.Services
 {
@@ -12,9 +16,57 @@ namespace Project_PR71_API.Services
             this.dataContext = dataContext;
         }
 
-        public bool AddUser(User user)
+        public User? GetUserByEmail(string email)
         {
-            return true;
+            return this.dataContext.User.FirstOrDefault(x => x.Email == email);
+        }
+
+        public void ConnectUser(string email, string code)
+        {
+            if (this.dataContext.User.FirstOrDefault(x => x.Email == email) == null)
+            {
+                this.CreateUser(this.ConverteEmailAdress(email));
+            }
+
+            SendEmailAsync(email, code);
+        }
+
+        private void CreateUser(string email)
+        {
+            User user = new User
+            {
+                Email = email,
+                Name = email.Split(".")[1].Split("@")[0].ToUpper(),
+                Firstname = email.Split(".")[0].ToLower(),
+                Username = email.Split(".")[0].ToLower() + email.Split(".")[1].Split("@")[0].Substring(0,1).ToLower()
+            };
+
+            dataContext.AddAsync(user);
+
+            dataContext.SaveChangesAsync();
+        }
+
+        private void SendEmailAsync(string email, string code)
+        {
+            var message = new MimeMessage();
+            message.From.Add(new MailboxAddress("UTGram", "utgram90@gmail.com"));
+            message.To.Add(new MailboxAddress("", this.ConverteEmailAdress(email)));
+            message.Subject = "UTgram Code Validator";
+            message.Body = new TextPart("html") { Text = "<!DOCTYPE html>\r\n<html lang=\"en\">\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\r\n    <title>Two-Step Authentication</title>\r\n    <style>\r\n        body {\r\n            font-family: Arial, sans-serif;\r\n            background-color: #f6f8fa;\r\n            padding: 20px;\r\n        }\r\n        .container {\r\n            max-width: 600px;\r\n            margin: auto;\r\n            background-color: #fff;\r\n            border-radius: 8px;\r\n            padding: 40px;\r\n            box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);\r\n        }\r\n        h2 {\r\n            color: #0366d6;\r\n        }\r\n        p {\r\n            color: #586069;\r\n            font-size: 16px;\r\n        }\r\n        .verification-code {\r\n            font-size: 18px;\r\n            font-weight: bold;\r\n            color: #0366d6;\r\n            margin-bottom: 20px;\r\n        }\r\n        .button {\r\n            background-color: #0366d6;\r\n            color: #fff;\r\n            padding: 10px 20px;\r\n            border: none;\r\n            border-radius: 5px;\r\n            font-size: 16px;\r\n            cursor: pointer;\r\n            text-decoration: none;\r\n        }\r\n        .button:hover {\r\n            background-color: #005cc5;\r\n        }\r\n    </style>\r\n</head>\r\n<body>\r\n    <div class=\"container\">\r\n        <h2>Two-Step Authentication</h2>\r\n        <p>Please use the following verification code to complete the authentication process:</p>\r\n        <p class=\"verification-code\">" + code + "</p>\r\n        <p>If you did not request this code, please ignore this email.</p>\r\n        <p>Thank you,<br>UTgram Team</p>\r\n    </div>\r\n</body>\r\n</html>\r\n" };
+
+
+            using (var client = new SmtpClient())
+            {
+                client.Connect("smtp.gmail.com", 587, SecureSocketOptions.StartTls);
+                client.Authenticate("utgram90@gmail.com", "fktg oumg wdgx jteb");
+                client.Send(message);
+                client.Disconnect(true);
+            }
+        }
+
+        private string ConverteEmailAdress(string email)
+        {
+            return email.Split('@')[0] + "@utbm.fr";
         }
     }
 }

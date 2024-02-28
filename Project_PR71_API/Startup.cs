@@ -35,6 +35,9 @@ namespace Project_PR71_API
             services.AddSwaggerGen();
 
             services.AddScoped<IPostService, PostService>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IMailSender, MailSender>();
+
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger)

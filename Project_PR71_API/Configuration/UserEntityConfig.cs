@@ -10,7 +10,7 @@ namespace Project_PR71_API.Configuration
         {
             // Columns configuration 
             builder.Property(e => e.Email).IsRequired();
-            builder.Property(e => e.Picture).IsRequired().HasColumnType("bytea");
+            builder.Property(e => e.Picture).HasColumnType("bytea");
             builder.Property(e => e.Username);
             builder.Property(e => e.Bio);
             builder.Property(e => e.Name).IsRequired();
