@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Project_PR71_API.Configuration;
 using Project_PR71_API.Services;
+using Project_PR71_API.Services.IServices;
 
 namespace Project_PR71_API
 {
@@ -36,7 +37,6 @@ namespace Project_PR71_API
 
             services.AddScoped<IPostService, PostService>();
             services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IMailSender, MailSender>();
 
         }
 

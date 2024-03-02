@@ -1,6 +1,6 @@
 ﻿using Project_PR71_API.Models;
 
-namespace Project_PR71_API.Services
+namespace Project_PR71_API.Services.IServices
 {
     public interface IPostService
     {

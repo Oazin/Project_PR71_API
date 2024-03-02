@@ -11,11 +11,23 @@ namespace Project_PR71_API.Configuration
 
         public DbSet<Post> Post { get; set; }
 
+        public DbSet<Image> Image { get; set; }
+
+        public DbSet<Comment> Comment { get; set; }
+
+        public DbSet<Message> Message { get; set; }
+
+        public DbSet<Follow> Follow { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new UserEntityConfig());
             modelBuilder.ApplyConfiguration(new PostEntityConfig());
+            modelBuilder.ApplyConfiguration(new ImageEntityConfig());
+            modelBuilder.ApplyConfiguration(new CommentEntityConfig());
+            modelBuilder.ApplyConfiguration(new MessageEntityConfig());
+            modelBuilder.ApplyConfiguration(new FollowEntityConfig());
         }
 
     }

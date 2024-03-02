@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Project_PR71_API.Configuration;
@@ -11,9 +12,10 @@ using Project_PR71_API.Configuration;
 namespace Project_PR71_API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20240229203450_AddFinalEntities")]
+    partial class AddFinalEntities
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -53,7 +55,7 @@ namespace Project_PR71_API.Migrations
                     b.ToTable("Comment");
                 });
 
-            modelBuilder.Entity("Project_PR71_API.Models.Follow", b =>
+            modelBuilder.Entity("Project_PR71_API.Models.FollowBy", b =>
                 {
                     b.Property<string>("FollowingEmail")
                         .HasColumnType("text");
@@ -110,6 +112,9 @@ namespace Project_PR71_API.Migrations
                     b.Property<string>("Content")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<DateTime>("DateTime")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("ReceiverEmail")
                         .IsRequired()
@@ -215,7 +220,7 @@ namespace Project_PR71_API.Migrations
                     b.Navigation("Writer");
                 });
 
-            modelBuilder.Entity("Project_PR71_API.Models.Follow", b =>
+            modelBuilder.Entity("Project_PR71_API.Models.FollowBy", b =>
                 {
                     b.HasOne("Project_PR71_API.Models.User", "Follower")
                         .WithMany("Followings")

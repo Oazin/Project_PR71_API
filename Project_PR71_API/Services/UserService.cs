@@ -3,7 +3,9 @@ using MailKit.Security;
 using MimeKit;
 using Project_PR71_API.Configuration;
 using Project_PR71_API.Models;
-using System.Diagnostics;
+using Project_PR71_API.Services.IServices;
+using System.Drawing;
+using System.Drawing.Imaging;
 
 namespace Project_PR71_API.Services
 {
@@ -38,7 +40,8 @@ namespace Project_PR71_API.Services
                 Email = email,
                 Name = email.Split(".")[1].Split("@")[0].ToUpper(),
                 Firstname = email.Split(".")[0].ToLower(),
-                Username = email.Split(".")[0].ToLower() + email.Split(".")[1].Split("@")[0].Substring(0,1).ToLower()
+                Username = email.Split(".")[0].ToLower() + email.Split(".")[1].Split("@")[0].Substring(0,1).ToLower(),
+                Picture = GenerateImage(email.Split(".")[0].ToUpper().Substring(0, 1), email.Split(".")[1].ToUpper().Substring(0, 1))
             };
 
             dataContext.AddAsync(user);
@@ -68,5 +71,75 @@ namespace Project_PR71_API.Services
         {
             return email.Split('@')[0] + "@utbm.fr";
         }
+
+        
+        public byte[] GenerateImage(string fnChar, string lnChar)
+        {
+            // Create a new bitmap with specified dimensions
+            int size = 200; // Size of the square
+            Bitmap bitmap = new Bitmap(size, size);
+
+            // Create a Graphics object from the bitmap
+            using (Graphics graphics = Graphics.FromImage(bitmap))
+            {
+                // Generate a random color for the background
+                Random random = new Random();
+                Color bgColor = Color.FromArgb(155,random.Next(256), random.Next(256), random.Next(256));
+
+                // Fill the background with the random color
+                graphics.Clear(bgColor);
+
+                // Draw the text "BC" in the center of the square
+                Font font = new Font("Arial", 80, FontStyle.Bold);
+                Brush brush = Brushes.Black; // You can choose any color for the text
+                StringFormat format = new StringFormat();
+                format.Alignment = StringAlignment.Center;
+                format.LineAlignment = StringAlignment.Center;
+                graphics.DrawString(fnChar+lnChar, font, brush, new RectangleF(0, 0, size, size), format);
+            }
+
+            byte[] imageBytes;
+            using (MemoryStream memoryStream = new MemoryStream())
+            {
+                bitmap.Save(memoryStream, ImageFormat.Png);
+                imageBytes = memoryStream.ToArray();
+            }
+            return imageBytes;
+        }
+
+        public bool UpdateUser(string email, User user)
+        {
+            if (user == null) { return false;  }
+            User existingUser = dataContext.User.FirstOrDefault(x => x.Email == email);
+
+            if (existingUser == null) { return false; }
+
+            bool patched = false;
+
+            if (existingUser.Username != user.Username)
+            {
+                existingUser.Username = user.Username;
+                patched = true;
+            }
+
+            if (existingUser.Bio !=  user.Bio)
+            {
+                existingUser.Bio = user.Bio;
+                patched = true;
+            }
+
+            if (existingUser.Picture != user.Picture)
+            {
+                existingUser.Picture = user.Picture;
+                patched = true;
+            }
+
+            dataContext.SaveChangesAsync();
+
+            return patched;
+        }
     }
+
 }
+
+
