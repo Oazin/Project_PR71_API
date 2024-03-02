@@ -37,6 +37,10 @@ namespace Project_PR71_API
 
             services.AddScoped<IPostService, PostService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<ICommentService, CommentService>();
+            services.AddScoped<IImageService, ImageService>();
+            services.AddScoped<IMessageService, MessageService>();
+            services.AddScoped<IFollowService, FollowService>();
 
         }
 

@@ -5,7 +5,7 @@ using Project_PR71_API.Services.IServices;
 
 namespace Project_PR71_API.Controllers
 {
-    [Route("api/[contoller]")]
+    [Route("api/[controller]")]
     public class MessageController : ControllerBase
     {
         private readonly IMessageService messageService;
