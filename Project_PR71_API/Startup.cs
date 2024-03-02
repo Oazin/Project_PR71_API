@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Project_PR71_API.Configuration;
 using Project_PR71_API.Services;
+using Project_PR71_API.Services.IServices;
 
 namespace Project_PR71_API
 {
@@ -35,6 +36,8 @@ namespace Project_PR71_API
             services.AddSwaggerGen();
 
             services.AddScoped<IPostService, PostService>();
+            services.AddScoped<IUserService, UserService>();
+
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger)

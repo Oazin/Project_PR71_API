@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Project_PR71_API.Services;
 using Project_PR71_API.Models;
+using Project_PR71_API.Services.IServices;
 
 namespace Project_PR71_API.Controllers
 {
@@ -19,17 +19,23 @@ namespace Project_PR71_API.Controllers
         }
 
         [HttpGet("{email}", Name = "GetUserByEmail")]
-        public ICollection<User> GetUserByEmail(string email)
+        public User? GetUserByEmail(string email)
         {
-            return null;//userService.GetUsers();
+            return userService.GetUserByEmail(email);
         }
 
-        [HttpPost(Name = "AddUser")]
-        public bool AddUser(User user)
+        [HttpPost("tryconnection", Name = "ConnectUser")]
+        public IActionResult TryToConnectUser(MailData mailData)
         {
-            return userService.AddUser(user);
+            userService.ConnectUser(mailData.EmailAdress, mailData.EmailCode);
+            return Ok("Success");
         }
 
-        //[HttpPatch("{User}")]
+        [HttpPatch("{email}", Name = "UpdateUser")]
+        public bool UpdateUser(string email, User user)
+        {
+            return userService.UpdateUser(email, user);
+        }
+
     }
 }
