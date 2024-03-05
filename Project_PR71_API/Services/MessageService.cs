@@ -18,7 +18,7 @@ namespace Project_PR71_API.Services
         {
             if (messageViewModel == null) { return false; }
 
-            Message message = messageViewModel.Convert();
+            Message? message = messageViewModel.Convert();
             message.Receiver = dataContext.User.FirstOrDefault(x => x.Email == messageViewModel.emailReceiver);
             message.Sender = dataContext.User.FirstOrDefault(x => x.Email == messageViewModel.emailSender);
             if (message.Sender == null || message.Receiver == null) { return false; }
@@ -35,9 +35,15 @@ namespace Project_PR71_API.Services
             List<Message> messages = dataContext.Message.Where(x => (x.Sender.Email == sender && x.Receiver.Email == receiver) || (x.Sender.Email == receiver && x.Receiver.Email == sender)).OrderByDescending(x => x.Id).ToList();
             List<MessageViewModel> messageViewModels = new List<MessageViewModel>();
 
-            foreach (var message in messages)
+
+            foreach (Message message in messages)
             {
-                messageViewModels.Add(message.Convert());
+                message.Sender = dataContext.User.FirstOrDefault(x => x.Email == sender);
+                message.Receiver = dataContext.User.FirstOrDefault(x => x.Email == receiver);
+                if (message.Sender != null && message.Receiver != null) 
+                {
+                    messageViewModels.Add(message.Convert());
+                }
             }
 
             return messageViewModels;
@@ -45,30 +51,34 @@ namespace Project_PR71_API.Services
 
         public bool DeleteMessage(int idMessage)
         {
-            Message msg = dataContext.Message.FirstOrDefault(x => x.Id == idMessage);
+            Message? msg = dataContext.Message.FirstOrDefault(x => x.Id == idMessage);
 
             if (msg == null) { return false; }
 
             dataContext.Message.Remove(msg);
 
-            dataContext.SaveChangesAsync();
+            dataContext.SaveChanges();
             return true;
         }
 
         public bool UpdateMessage(int idMessage, MessageViewModel message)
         {
-            Message existingMessage = dataContext.Message.FirstOrDefault(x => x.Id != idMessage);
+            Message? existingMessage = dataContext.Message.FirstOrDefault(x => x.Id == idMessage);
 
             bool patched = false;
 
             if (existingMessage == null) { return patched; }
 
-            if (existingMessage.Content != message.Content)
+            existingMessage.Sender = dataContext.User.FirstOrDefault(x => x.Email == message.emailSender);
+            existingMessage.Receiver = dataContext.User.FirstOrDefault(x => x.Email == message.emailReceiver);
+            if (existingMessage.Sender != null && existingMessage.Receiver != null)
             {
-                existingMessage.Content = message.Content;
-                patched = true;
+                if (!existingMessage.Content.Equals(message.Content) || string.IsNullOrEmpty(message.Content))
+                {
+                    existingMessage.Content = message.Content;
+                    patched = true;
+                }
             }
-
             dataContext.SaveChangesAsync();
 
             return patched;

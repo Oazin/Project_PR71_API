@@ -116,25 +116,25 @@ namespace Project_PR71_API.Services
 
             bool patched = false;
 
-            if (existingUser.Username != user.Username)
+            if (existingUser.Username != user.Username && !string.IsNullOrWhiteSpace(user.Username))
             {
                 existingUser.Username = user.Username;
                 patched = true;
             }
 
-            if (existingUser.Bio !=  user.Bio)
+            if (existingUser.Bio !=  user.Bio && !string.IsNullOrWhiteSpace(user.Bio))
             {
                 existingUser.Bio = user.Bio;
                 patched = true;
             }
 
-            if (existingUser.Picture != user.Picture)
+            if (existingUser.Picture != user.Picture && user.Picture.Length != 0)
             {
                 existingUser.Picture = user.Picture;
                 patched = true;
             }
 
-            dataContext.SaveChangesAsync();
+            dataContext.SaveChanges();
 
             return patched;
         }

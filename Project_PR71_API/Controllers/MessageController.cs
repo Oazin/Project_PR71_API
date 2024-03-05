@@ -28,7 +28,7 @@ namespace Project_PR71_API.Controllers
         }
 
         [HttpPatch("{idMessage}")]
-        public bool UpdateMessage(int idMessage, MessageViewModel messageViewModel)
+        public async Task<bool> UpdateMessage(int idMessage, MessageViewModel messageViewModel)
         {
             return messageService.UpdateMessage(idMessage, messageViewModel);
         }
