@@ -1,7 +1,9 @@
 ﻿using Microsoft.Extensions.Hosting;
 using Project_PR71_API.Configuration;
 using Project_PR71_API.Models;
+using Project_PR71_API.Models.ViewModel;
 using Project_PR71_API.Services.IServices;
+using System.Linq;
 
 namespace Project_PR71_API.Services
 {
@@ -95,12 +97,21 @@ namespace Project_PR71_API.Services
         /// <param name="postId"></param>
         /// <param name="likes"></param>
         /// <returns></returns>
-        public bool AddLikes(int postId, int likes)
+        public bool AddLikes(int postId, LikeViewModel newLikeViewModel)
         {
             Post existingPost = dataContext.Post.FirstOrDefault(x => x.Id == postId);
             if (existingPost == null) { return false; }
 
-            existingPost.Like = likes;
+            Like newLike = newLikeViewModel.Convert();
+
+            newLike.User = dataContext.User.FirstOrDefault(x => x.Email == newLikeViewModel.EmailUser);
+            newLike.Post = dataContext.Post.FirstOrDefault(x => x.Id == postId);
+
+            if  (newLike.User == null || newLike.Post == null) { return false; }
+
+            existingPost.Likes.Add(newLike);
+
+            dataContext.Like.Add(newLike);
 
             dataContext.SaveChanges();
 

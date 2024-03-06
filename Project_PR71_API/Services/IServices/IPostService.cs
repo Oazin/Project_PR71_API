@@ -1,4 +1,5 @@
-﻿using Project_PR71_API.Models;
+﻿using Project_PR71_API.Models.ViewModel;
+using Project_PR71_API.Models;
 
 namespace Project_PR71_API.Services.IServices
 {
@@ -12,6 +13,6 @@ namespace Project_PR71_API.Services.IServices
 
         public bool UpdatePost(int postId, Post post);
 
-        public bool AddLikes(int postId, int likes);
+        public bool AddLikes(int postId, LikeViewModel newLike);
     }
 }

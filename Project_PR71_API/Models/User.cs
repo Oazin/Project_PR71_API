@@ -1,4 +1,6 @@
-﻿namespace Project_PR71_API.Models
+﻿using Project_PR71_API.Models.ViewModel;
+
+namespace Project_PR71_API.Models
 {
     public class User
     {
@@ -21,5 +23,20 @@
         public virtual ICollection<Follow>? Followers { get; set; }
 
         public virtual ICollection<Follow>? Followings { get; set; }
+
+        public ICollection<Like>? Likes { get; set; }
+
+        public UserViewModel Convert()
+        {
+            return new UserViewModel
+            {
+                Email = Email,
+                Name = Name,
+                Firstname = Firstname,
+                Bio = Bio,
+                Picture = Picture,
+                Username = Username,
+            };
+        }
     }
 }

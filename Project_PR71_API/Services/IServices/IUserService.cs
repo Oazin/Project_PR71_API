@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Project_PR71_API.Models;
+using Project_PR71_API.Models.ViewModel;
 
 namespace Project_PR71_API.Services.IServices
 {
@@ -7,8 +8,8 @@ namespace Project_PR71_API.Services.IServices
     {
         public void ConnectUser(string email, string code);
 
-        public User? GetUserByEmail(string email);
+        public UserViewModel? GetUserByEmail(string email);
 
-        public bool UpdateUser(string email, User user);
+        public bool UpdateUser(string email, UserViewModel user);
     }
 }

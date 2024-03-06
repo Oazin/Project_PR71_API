@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Project_PR71_API.Models.ViewModel;
 using Project_PR71_API.Models;
 using Project_PR71_API.Services.IServices;
 
@@ -20,7 +21,7 @@ namespace Project_PR71_API.Controllers
         }
 
         [HttpGet("{email}", Name = "GetUserByEmail")]
-        public User? GetUserByEmail(string email)
+        public UserViewModel? GetUserByEmail(string email)
         {
             return userService.GetUserByEmail(email);
         }
@@ -33,7 +34,7 @@ namespace Project_PR71_API.Controllers
         }
 
         [HttpPatch("{email}", Name = "UpdateUser")]
-        public bool UpdateUser(string email, User user)
+        public bool UpdateUser(string email, UserViewModel user)
         {
             return userService.UpdateUser(email, user);
         }

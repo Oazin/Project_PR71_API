@@ -6,8 +6,6 @@ namespace Project_PR71_API.Models
     {
         public int Id { get; set; }
 
-        public int Like { get; set; }
-
         public string Title { get; set; }
 
         public string? Description { get; set; }
@@ -19,5 +17,7 @@ namespace Project_PR71_API.Models
         public ICollection<Image> Images { get; set;}
 
         public ICollection<Comment> Comments { get; set;}
+
+        public ICollection<Like> Likes { get; set; }
     }
 }

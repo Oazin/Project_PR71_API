@@ -19,6 +19,8 @@ namespace Project_PR71_API.Configuration
 
         public DbSet<Follow> Follow { get; set; }
 
+        public DbSet<Like> Like { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -28,6 +30,7 @@ namespace Project_PR71_API.Configuration
             modelBuilder.ApplyConfiguration(new CommentEntityConfig());
             modelBuilder.ApplyConfiguration(new MessageEntityConfig());
             modelBuilder.ApplyConfiguration(new FollowEntityConfig());
+            modelBuilder.ApplyConfiguration(new LikeEntityConfig());
         }
 
     }

@@ -3,6 +3,7 @@ using MailKit.Security;
 using MimeKit;
 using Project_PR71_API.Configuration;
 using Project_PR71_API.Models;
+using Project_PR71_API.Models.ViewModel;
 using Project_PR71_API.Services.IServices;
 using System.Drawing;
 using System.Drawing.Imaging;
@@ -18,9 +19,9 @@ namespace Project_PR71_API.Services
             this.dataContext = dataContext;
         }
 
-        public User? GetUserByEmail(string email)
+        public UserViewModel? GetUserByEmail(string email)
         {
-            return this.dataContext.User.FirstOrDefault(x => x.Email == email);
+            return this.dataContext.User.FirstOrDefault(x => x.Email == email).Convert();
         }
 
         public void ConnectUser(string email, string code)
@@ -107,8 +108,10 @@ namespace Project_PR71_API.Services
             return imageBytes;
         }
 
-        public bool UpdateUser(string email, User user)
+        public bool UpdateUser(string email, UserViewModel userViewModel)
         {
+            User user = userViewModel.Convert();
+
             if (user == null) { return false;  }
             User existingUser = dataContext.User.FirstOrDefault(x => x.Email == email);
 

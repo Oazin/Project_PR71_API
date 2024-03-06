@@ -12,7 +12,6 @@ namespace Project_PR71_API.Configuration
             builder.Property(e => e.Id).IsRequired();
             builder.Property(e => e.Title);
             builder.Property(e => e.Description);
-            builder.Property(e => e.Like).IsRequired();
             builder.Property(e => e.DateTime).IsRequired();
 
             // Primary key
@@ -26,6 +25,11 @@ namespace Project_PR71_API.Configuration
 
             // Relationship with Comment
             builder.HasMany(e => e.Comments)
+                .WithOne(e => e.Post)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // Relationship with Likes
+            builder.HasMany(e => e.Likes)
                 .WithOne(e => e.Post)
                 .OnDelete(DeleteBehavior.Cascade);
         }

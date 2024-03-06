@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Project_PR71_API.Models;
+using Project_PR71_API.Models.ViewModel;
 using Project_PR71_API.Services.IServices;
 
 namespace Project_PR71_API.Controllers
@@ -37,10 +38,10 @@ namespace Project_PR71_API.Controllers
             return postService.UpdatePost(postId, post);
         }
 
-        [HttpPatch("{postId}/{likes}", Name = "AddLikes")]
-        public bool AddLikes(int postId, int likes)
+        [HttpPatch("{postId}/like", Name = "AddLikes")]
+        public bool AddLikes(int postId, LikeViewModel newLikeViewModel)
         {
-            return postService.AddLikes(postId, likes);
+            return postService.AddLikes(postId, newLikeViewModel);
         }
 
         [HttpDelete("{postId}", Name = "DeletePost")]
