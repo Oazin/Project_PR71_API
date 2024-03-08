@@ -39,9 +39,21 @@ namespace Project_PR71_API.Controllers
         }
 
         [HttpPatch("{postId}/like", Name = "AddLikes")]
-        public bool AddLikes(int postId, LikeViewModel newLikeViewModel)
+        public bool AddLike(int postId, LikeViewModel newLikeViewModel)
         {
             return postService.AddLikes(postId, newLikeViewModel);
+        }
+
+        [HttpDelete("{postId}/{emailUser}")]
+        public bool DeleteLike(int idPost, string emailUser)
+        {
+            return postService.DeleteLike(idPost, emailUser);
+        }
+
+        [HttpGet("{postId}/{emailUser}")]
+        public bool HadLiked(int idPost, string emailUser)
+        {
+            return postService.HadLiked(idPost, emailUser);
         }
 
         [HttpDelete("{postId}", Name = "DeletePost")]

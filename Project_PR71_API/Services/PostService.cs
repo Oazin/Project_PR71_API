@@ -117,5 +117,24 @@ namespace Project_PR71_API.Services
 
             return true;
         }
+
+        public bool HadLiked(int idPost, string emailUser)
+        {
+            return (dataContext.Like.FirstOrDefault(x => x.Post.Id == idPost && x.User.Email.Equals(emailUser)) != null);
+        }
+
+        public bool DeleteLike(int idPost, string emailUser)
+        {
+            Like like = dataContext.Like.FirstOrDefault(x => x.Post.Id == idPost && x.User.Email.Equals(emailUser));
+
+            if (like == null) { return false; }
+
+            dataContext.Like.Remove(like);
+
+            dataContext.SaveChanges();
+
+            return true;
+        }
+
     }
 }

@@ -14,5 +14,9 @@ namespace Project_PR71_API.Services.IServices
         public bool UpdatePost(int postId, Post post);
 
         public bool AddLikes(int postId, LikeViewModel newLike);
+
+        public bool HadLiked(int idPost, string emailUser);
+
+        public bool DeleteLike(int idPost, string emailUser);
     }
 }
