@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Project_PR71_API.Configuration;
 using Project_PR71_API.Services;
 using Project_PR71_API.Services.IServices;
@@ -42,6 +43,16 @@ namespace Project_PR71_API
             services.AddScoped<IMessageService, MessageService>();
             services.AddScoped<IFollowService, FollowService>();
 
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowUTgramFront", builder => builder
+                    .WithOrigins("http://localhost:4200")
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .Build()
+                );
+            });
+
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger)
@@ -54,6 +65,8 @@ namespace Project_PR71_API
             UpdateDatabase(app);
 
             app.UseHttpsRedirection();
+
+            app.UseCors("AllowUTgramFront");
 
             app.UseRouting();
 

@@ -3,6 +3,6 @@
     public class MailData
     {
         public string EmailAdress { get; set; }
-        public string EmailCode { get; set; }
+        public string Code { get; set; }
     }
 }

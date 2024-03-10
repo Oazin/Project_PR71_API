@@ -7,6 +7,8 @@ using Project_PR71_API.Models.ViewModel;
 using Project_PR71_API.Services.IServices;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace Project_PR71_API.Services
 {
@@ -30,8 +32,8 @@ namespace Project_PR71_API.Services
             {
                 this.CreateUser(this.ConverteEmailAdress(email));
             }
-
-            SendEmailAsync(email, code);
+            
+            SendEmailAsync(email, this.Decrypt(code, "testtesttesttesttest"));
         }
 
         private void CreateUser(string email)
@@ -140,6 +142,32 @@ namespace Project_PR71_API.Services
             dataContext.SaveChanges();
 
             return patched;
+        }
+
+        
+        private string Decrypt(string cipherText, string key)
+        {
+            byte[] keyBytes = Encoding.UTF8.GetBytes(key.Substring(0, 16));
+            byte[] cipherBytes = Convert.FromBase64String(cipherText);
+
+            using (Aes aesAlg = Aes.Create())
+            {
+                aesAlg.Key = keyBytes;
+                aesAlg.Mode = CipherMode.ECB;
+                aesAlg.Padding = PaddingMode.PKCS7;
+
+                ICryptoTransform decryptor = aesAlg.CreateDecryptor(aesAlg.Key, aesAlg.IV);
+                using (var msDecrypt = new MemoryStream(cipherBytes))
+                {
+                    using (var csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read))
+                    {
+                        using (var srDecrypt = new StreamReader(csDecrypt))
+                        {
+                            return srDecrypt.ReadToEnd();
+                        }
+                    }
+                }
+            }
         }
     }
 

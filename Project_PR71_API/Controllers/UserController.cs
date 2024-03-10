@@ -27,10 +27,10 @@ namespace Project_PR71_API.Controllers
         }
 
         [HttpPost("tryconnection", Name = "ConnectUser")]
-        public IActionResult TryToConnectUser(MailData mailData)
+        public bool TryToConnectUser(MailData mailData)
         {
-            userService.ConnectUser(mailData.EmailAdress, mailData.EmailCode);
-            return Ok("Success");
+            userService.ConnectUser(mailData.EmailAdress, mailData.Code);
+            return true;
         }
 
         [HttpPatch("{email}", Name = "UpdateUser")]
