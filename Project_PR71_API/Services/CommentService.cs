@@ -1,4 +1,5 @@
-﻿using Project_PR71_API.Configuration;
+﻿using Microsoft.EntityFrameworkCore;
+using Project_PR71_API.Configuration;
 using Project_PR71_API.Models;
 using Project_PR71_API.Models.ViewModel;
 using Project_PR71_API.Services.IServices;
@@ -18,6 +19,7 @@ namespace Project_PR71_API.Services
         {
             if (commentViewModel == null) { return false; }
             Comment comment = commentViewModel.Convert();
+            comment.Id = dataContext.Comment.Any() ? dataContext.Comment.Max(x => x.Id) + 1  : 1;
             comment.Writer = dataContext.User.FirstOrDefault(x => x.Email == commentViewModel.emailWriter);
             comment.Post = dataContext.Post.FirstOrDefault(x => x.Id == commentViewModel.idPost);
 
@@ -32,13 +34,8 @@ namespace Project_PR71_API.Services
 
         public ICollection<CommentViewModel> GetCommentsByPost(int idPost)
         {
-            List<Comment> comments = dataContext.Comment.Where(x => x.Id == idPost).OrderBy(x => x.Id).ToList();
-            List<CommentViewModel> commentViewModels = new List<CommentViewModel>();
-
-            foreach (Comment comment in comments)
-            {
-                commentViewModels.Add(comment.Convert());
-            }
+            List<Comment> comments = dataContext.Comment.Include(c => c.Writer).Include(c => c.Post).Where(x => x.Post.Id == idPost).OrderBy(x => x.Id).ToList();
+            List<CommentViewModel> commentViewModels = comments.Select(x => x.Convert()).ToList();
 
             return commentViewModels;
         }

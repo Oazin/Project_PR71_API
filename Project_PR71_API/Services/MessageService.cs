@@ -1,4 +1,5 @@
-﻿using Project_PR71_API.Configuration;
+﻿using Microsoft.EntityFrameworkCore;
+using Project_PR71_API.Configuration;
 using Project_PR71_API.Models;
 using Project_PR71_API.Models.ViewModel;
 using Project_PR71_API.Services.IServices;
@@ -17,6 +18,7 @@ namespace Project_PR71_API.Services
         public bool SendMessage(MessageViewModel messageViewModel)
         {
             if (messageViewModel == null) { return false; }
+            messageViewModel.Id = dataContext.Message.Any() ? dataContext.Message.Max(x => x.Id) + 1 : 1;
 
             Message? message = messageViewModel.Convert();
             message.Receiver = dataContext.User.FirstOrDefault(x => x.Email == messageViewModel.emailReceiver);
@@ -32,7 +34,7 @@ namespace Project_PR71_API.Services
 
         public ICollection<MessageViewModel> GetMessageByConv(string sender, string receiver)
         {
-            List<Message> messages = dataContext.Message.Where(x => (x.Sender.Email == sender && x.Receiver.Email == receiver) || (x.Sender.Email == receiver && x.Receiver.Email == sender)).OrderByDescending(x => x.Id).ToList();
+            List<Message> messages = dataContext.Message.Include(x => x.Sender).Include(x => x.Receiver).Where(x => (x.Sender.Email == sender && x.Receiver.Email == receiver) || (x.Sender.Email == receiver && x.Receiver.Email == sender)).OrderByDescending(x => x.Id).ToList();
             List<MessageViewModel> messageViewModels = new List<MessageViewModel>();
 
 

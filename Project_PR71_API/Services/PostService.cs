@@ -1,9 +1,11 @@
-﻿using Microsoft.Extensions.Hosting;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 using Project_PR71_API.Configuration;
 using Project_PR71_API.Models;
 using Project_PR71_API.Models.ViewModel;
 using Project_PR71_API.Services.IServices;
 using System.Linq;
+using System.Xml.Linq;
 
 namespace Project_PR71_API.Services
 {
@@ -24,9 +26,12 @@ namespace Project_PR71_API.Services
         /// </summary>
         /// <param name="userEmail"></param>
         /// <returns></returns>
-        public ICollection<Post> GetPostsByUser(string userEmail)
+        public ICollection<PostViewModel> GetPostsByUser(string userEmail)
         {
-            return dataContext.Post.Where(x => x.User.Email == userEmail).OrderBy(x => x.DateTime).ToList();
+            ICollection<Post> posts = dataContext.Post.Include(x => x.User).Include(x => x.Images).Include(x => x.Comments).Include(x => x.Likes).Where(x => x.User.Email == userEmail).OrderBy(x => x.DateTime).ToList();
+            ICollection<PostViewModel> postsViewModel = posts.Select(x => x.Convert()).ToList();
+
+            return postsViewModel;
         }
         
         /// <summary>
@@ -35,12 +40,22 @@ namespace Project_PR71_API.Services
         /// <param name="userEmail"></param>
         /// <param name="post"></param>
         /// <returns></returns>
-        public bool AddPost(string userEmail, Post post)
+        public bool AddPost(string userEmail, PostViewModel postViewModel)
         {
             User user = dataContext.User.FirstOrDefault(x => x.Email == userEmail);
-            if (user == null) { return false; }
+            if (user == null || postViewModel == null) { return false; }
+
+            Post post = postViewModel.Convert();
+            post.User = user;
+            post.Id = dataContext.Post.Any() ? dataContext.Post.Max(x => x.Id) + 1 : 1;
 
             dataContext.Post.AddAsync(post);
+
+            foreach (var image in postViewModel.Images)
+            {
+                dataContext.Image.Add(image.Convert());
+            }
+
             dataContext.SaveChangesAsync();
             return true;
         }
@@ -55,11 +70,23 @@ namespace Project_PR71_API.Services
             Post post = dataContext.Post.FirstOrDefault(x => x.Id == postId);
             if (post == null){ return false; }
 
-            post.Images = dataContext.Image.Where(x => x.Id == postId).ToList();
+            post.Images = dataContext.Image.Where(x => x.Post.Id == postId).ToList();
+            post.Comments = dataContext.Comment.Where(x =>x.Post.Id == postId).ToList();
+            post.Likes = dataContext.Like.Where(x => x.Post.Id == postId).ToList();
 
             foreach (Image image in post.Images)
             {
                 dataContext.Image.Remove(image);
+            }
+
+            foreach (Comment comment in post.Comments)
+            {
+                dataContext.Comment.Remove(comment);
+            }
+
+            foreach (Like like in post.Likes)
+            {
+                dataContext.Like.Remove(like);
             }
             
             dataContext.Post.Remove(post);
@@ -103,13 +130,12 @@ namespace Project_PR71_API.Services
             if (existingPost == null) { return false; }
 
             Like newLike = newLikeViewModel.Convert();
+            newLike.Id = dataContext.Like.Any() ? dataContext.Like.Max(x => x.Id) + 1 : 1;
 
             newLike.User = dataContext.User.FirstOrDefault(x => x.Email == newLikeViewModel.EmailUser);
             newLike.Post = dataContext.Post.FirstOrDefault(x => x.Id == postId);
 
             if  (newLike.User == null || newLike.Post == null) { return false; }
-
-            existingPost.Likes.Add(newLike);
 
             dataContext.Like.Add(newLike);
 

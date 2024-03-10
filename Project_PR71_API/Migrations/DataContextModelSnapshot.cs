@@ -50,7 +50,7 @@ namespace Project_PR71_API.Migrations
 
                     b.HasIndex("WriterEmail");
 
-                    b.ToTable("Comment");
+                    b.ToTable("Comment", (string)null);
                 });
 
             modelBuilder.Entity("Project_PR71_API.Models.Follow", b =>
@@ -68,7 +68,7 @@ namespace Project_PR71_API.Migrations
                     b.HasIndex("FollowingEmail", "FollowerEmail")
                         .IsUnique();
 
-                    b.ToTable("Follow");
+                    b.ToTable("Follow", (string)null);
                 });
 
             modelBuilder.Entity("Project_PR71_API.Models.Image", b =>
@@ -96,7 +96,7 @@ namespace Project_PR71_API.Migrations
 
                     b.HasIndex("PostId");
 
-                    b.ToTable("Image");
+                    b.ToTable("Image", (string)null);
                 });
 
             modelBuilder.Entity("Project_PR71_API.Models.Like", b =>
@@ -123,7 +123,7 @@ namespace Project_PR71_API.Migrations
 
                     b.HasIndex("UserEmail");
 
-                    b.ToTable("Like");
+                    b.ToTable("Like", (string)null);
                 });
 
             modelBuilder.Entity("Project_PR71_API.Models.Message", b =>
@@ -155,7 +155,7 @@ namespace Project_PR71_API.Migrations
 
                     b.HasIndex("SenderEmail");
 
-                    b.ToTable("Message");
+                    b.ToTable("Message", (string)null);
                 });
 
             modelBuilder.Entity("Project_PR71_API.Models.Post", b =>
@@ -187,7 +187,7 @@ namespace Project_PR71_API.Migrations
 
                     b.HasIndex("UserEmail");
 
-                    b.ToTable("Post");
+                    b.ToTable("Post", (string)null);
                 });
 
             modelBuilder.Entity("Project_PR71_API.Models.User", b =>
@@ -217,7 +217,7 @@ namespace Project_PR71_API.Migrations
                     b.HasIndex("Email")
                         .IsUnique();
 
-                    b.ToTable("User");
+                    b.ToTable("User", (string)null);
                 });
 
             modelBuilder.Entity("Project_PR71_API.Models.Comment", b =>

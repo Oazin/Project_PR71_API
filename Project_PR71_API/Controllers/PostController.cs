@@ -21,45 +21,45 @@ namespace Project_PR71_API.Controllers
         }
 
         [HttpGet("{userEmail}", Name = "GetPostsByUser")]
-        public ICollection<Post> GetPostsByUser(string userEmail)
+        public ICollection<PostViewModel> GetPostsByUser(string userEmail)
         {
             return postService.GetPostsByUser(userEmail);
         }
 
         [HttpPost("{userEmail}", Name = "AddPost")]
-        public bool AddPost(string userEmail, Post post)
+        public bool AddPost(string userEmail, PostViewModel post)
         {
             return postService.AddPost(userEmail, post);
         }
 
-        [HttpPatch("{postId}", Name = "UpdatePost")]
-        public bool UpdatePost(int postId, Post post)
+        [HttpPatch("{idPost}", Name = "UpdatePost")]
+        public bool UpdatePost(int idPost, Post post)
         {
-            return postService.UpdatePost(postId, post);
+            return postService.UpdatePost(idPost, post);
         }
 
-        [HttpPatch("{postId}/like", Name = "AddLikes")]
-        public bool AddLike(int postId, LikeViewModel newLikeViewModel)
+        [HttpPatch("{idPost}/like", Name = "AddLikes")]
+        public bool AddLike(int idPost, LikeViewModel newLikeViewModel)
         {
-            return postService.AddLikes(postId, newLikeViewModel);
+            return postService.AddLikes(idPost, newLikeViewModel);
         }
 
-        [HttpDelete("{postId}/{emailUser}")]
+        [HttpDelete("{idPost}/{emailUser}")]
         public bool DeleteLike(int idPost, string emailUser)
         {
             return postService.DeleteLike(idPost, emailUser);
         }
 
-        [HttpGet("{postId}/{emailUser}")]
+        [HttpGet("{idPost}/{emailUser}")]
         public bool HadLiked(int idPost, string emailUser)
         {
             return postService.HadLiked(idPost, emailUser);
         }
 
-        [HttpDelete("{postId}", Name = "DeletePost")]
-        public bool DeletePost(int postId)
+        [HttpDelete("{idPost}", Name = "DeletePost")]
+        public bool DeletePost(int idPost)
         {
-            return postService.DeletePost(postId);
+            return postService.DeletePost(idPost);
         }
     }
 }

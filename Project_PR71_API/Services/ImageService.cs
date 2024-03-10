@@ -17,12 +17,7 @@ namespace Project_PR71_API.Services
         public ICollection<ImageViewModel> GetImageByPost(int idPost)
         {
             List<Image> images = dataContext.Image.Where(x => x.Post.Id == idPost).ToList();
-            List<ImageViewModel> imageViewModels = new List<ImageViewModel>();
-
-            foreach (Image image in images)
-            {
-                imageViewModels.Add(image.Convert());
-            }
+            List<ImageViewModel> imageViewModels = images.Select(x => x.Convert()).ToList();
             
             return imageViewModels;
         }
@@ -39,11 +34,12 @@ namespace Project_PR71_API.Services
         {
             if (imageVIewModel == null) { return false; }
             Image image = imageVIewModel.Convert();
+            image.Id = dataContext.Image.Any() ? dataContext.Image.Max(x => x.Id) + 1 : 1;
             image.Post = dataContext.Post.FirstOrDefault(x => x.Id == imageVIewModel.idPost);
 
-            dataContext.Image.AddAsync(image);
+            dataContext.Image.Add(image);
 
-            dataContext.SaveChangesAsync();
+            dataContext.SaveChanges();
             
             return true;
         }

@@ -5,15 +5,15 @@ namespace Project_PR71_API.Services.IServices
 {
     public interface IPostService
     {
-        public ICollection<Post> GetPostsByUser(string userEmail);
+        public ICollection<PostViewModel> GetPostsByUser(string userEmail);
 
-        public bool AddPost(string userEmail, Post post);
+        public bool AddPost(string userEmail, PostViewModel postViewModel);
 
-        public bool DeletePost(int postId);
+        public bool DeletePost(int idPost);
 
-        public bool UpdatePost(int postId, Post post);
+        public bool UpdatePost(int idPost, Post post);
 
-        public bool AddLikes(int postId, LikeViewModel newLike);
+        public bool AddLikes(int idPost, LikeViewModel newLike);
 
         public bool HadLiked(int idPost, string emailUser);
 
