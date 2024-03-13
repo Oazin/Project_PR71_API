@@ -35,8 +35,7 @@ namespace Project_PR71_API.Models
                 DateTime = DateTime,
                 User = User.Convert(),
                 Images = Images.Select(x => x.Convert()).ToList(),
-                Comments = Comments.Select(x => x.Convert()).ToList(),
-                Likes = Likes.Select(x => x.Convert()).ToList(),
+                Likes = Likes.Count,
             };
         }
     }

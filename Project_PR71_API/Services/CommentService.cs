@@ -20,7 +20,7 @@ namespace Project_PR71_API.Services
             if (commentViewModel == null) { return false; }
             Comment comment = commentViewModel.Convert();
             comment.Id = dataContext.Comment.Any() ? dataContext.Comment.Max(x => x.Id) + 1  : 1;
-            comment.Writer = dataContext.User.FirstOrDefault(x => x.Email == commentViewModel.emailWriter);
+            comment.Writer = dataContext.User.FirstOrDefault(x => x.Email == commentViewModel.Writer.Email);
             comment.Post = dataContext.Post.FirstOrDefault(x => x.Id == commentViewModel.idPost);
 
             if (comment.Writer == null || comment.Post == null) { return false; }

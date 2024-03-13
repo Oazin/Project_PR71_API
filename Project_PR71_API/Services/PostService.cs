@@ -23,7 +23,7 @@ namespace Project_PR71_API.Services
 
         public ICollection<PostViewModel> GetFeed()
         {
-            ICollection<Post> posts = dataContext.Post.Include(x => x.User).Include(x => x.Images).Include(x => x.Comments).Include(x => x.Likes).OrderByDescending(x => x.DateTime).Take(20).ToList();
+            ICollection<Post> posts = dataContext.Post.Include(x => x.User).Include(x => x.Images).Include(x => x.Likes).OrderByDescending(x => x.DateTime).Take(20).ToList();
             ICollection<PostViewModel> postsViewModel = posts.Select(x => x.Convert()).ToList();
 
             return postsViewModel;
@@ -36,7 +36,7 @@ namespace Project_PR71_API.Services
         /// <returns></returns>
         public ICollection<PostViewModel> GetPostsByUser(string userEmail)
         {
-            ICollection<Post> posts = dataContext.Post.Include(x => x.User).Include(x => x.Images).Include(x => x.Comments).Include(x => x.Likes).Where(x => x.User.Email == userEmail).OrderByDescending(x => x.DateTime).ToList();
+            ICollection<Post> posts = dataContext.Post.Include(x => x.User).Include(x => x.Images).Include(x => x.Likes).Where(x => x.User.Email == userEmail).OrderByDescending(x => x.DateTime).ToList();
             ICollection<PostViewModel> postsViewModel = posts.Select(x => x.Convert()).ToList();
 
             return postsViewModel;

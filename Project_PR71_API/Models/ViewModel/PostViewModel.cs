@@ -16,7 +16,7 @@
 
         public ICollection<CommentViewModel>? Comments { get; set; }
 
-        public ICollection<LikeViewModel>? Likes { get; set; }
+        public int? Likes { get; set; }
 
         public Post Convert()
         {

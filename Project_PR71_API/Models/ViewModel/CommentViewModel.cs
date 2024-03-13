@@ -4,7 +4,7 @@
     {
         public int Id { get; set; }
 
-        public string emailWriter { get; set; }
+        public User Writer { get; set; }
 
         public int idPost { get; set; }
 
@@ -16,6 +16,7 @@
             {
                 Id = Id,
                 Content = Content,
+                Writer = Writer,
             };
         }
     }
