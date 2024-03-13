@@ -176,11 +176,11 @@ namespace Project_PR71_API.Services
             if (!string.IsNullOrEmpty(searchTerms))
             {
                 ICollection<User> users = dataContext.User
-                    .Where(x => x.Username.Contains(searchTerms) ||
-                                x.Name.Contains(searchTerms) ||
-                                x.Firstname.Contains(searchTerms))
-                    .OrderBy(x => x.Username)
-                    .Take(20)
+                    .Where(x => x.Username.ToUpper().Contains(searchTerms.ToUpper()) ||
+                                x.Name.ToUpper().Contains(searchTerms.ToUpper()) ||
+                                x.Firstname.ToUpper().Contains(searchTerms.ToUpper()))
+                    .OrderBy(x => x.Username.ToUpper())
+                    .Take(10)
                     .ToList();
 
                 return users.Select(x => x.Convert()).ToList();

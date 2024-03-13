@@ -40,7 +40,7 @@ namespace Project_PR71_API.Controllers
             return userService.UpdateUser(email, user);
         }
 
-        [HttpPost("research/{searchTerms}", Name = "ResearchUser")]
+        [HttpGet("research/{searchTerms}", Name = "ResearchUser")]
         public ICollection<UserViewModel>? ResearchUser(string searchTerms)
         {
             return userService.ResearchUsers(searchTerms);

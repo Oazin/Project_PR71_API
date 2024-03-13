@@ -20,7 +20,7 @@ namespace Project_PR71_API.Controllers
             this.postService = postService;
         }
 
-        [HttpGet(Name = "GetFeed")]
+        [HttpGet("feed", Name = "GetFeed")]
         public ICollection<PostViewModel> GetFeed()
         {
             return postService.GetFeed();
