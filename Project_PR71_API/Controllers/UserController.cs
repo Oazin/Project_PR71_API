@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Project_PR71_API.Models.ViewModel;
 using Project_PR71_API.Models;
 using Project_PR71_API.Services.IServices;
+using MailKit.Search;
 
 namespace Project_PR71_API.Controllers
 {
@@ -39,5 +40,10 @@ namespace Project_PR71_API.Controllers
             return userService.UpdateUser(email, user);
         }
 
+        [HttpPost("research/{searchTerms}", Name = "ResearchUser")]
+        public ICollection<UserViewModel>? ResearchUser(string searchTerms)
+        {
+            return userService.ResearchUsers(searchTerms);
+        }
     }
 }

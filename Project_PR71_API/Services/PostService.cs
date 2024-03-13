@@ -21,6 +21,14 @@ namespace Project_PR71_API.Services
             this.imageService = imageService;
         }
 
+        public ICollection<PostViewModel> GetFeed()
+        {
+            ICollection<Post> posts = dataContext.Post.Include(x => x.User).Include(x => x.Images).Include(x => x.Comments).Include(x => x.Likes).OrderBy(x => x.DateTime).Take(20).ToList();
+            ICollection<PostViewModel> postsViewModel = posts.Select(x => x.Convert()).ToList();
+
+            return postsViewModel;
+        }
+
         /// <summary>
         /// Get all Post of a user
         /// </summary>
@@ -49,14 +57,19 @@ namespace Project_PR71_API.Services
             post.User = user;
             post.Id = dataContext.Post.Any() ? dataContext.Post.Max(x => x.Id) + 1 : 1;
 
-            dataContext.Post.AddAsync(post);
+            dataContext.Post.Add(post);
+
+            dataContext.SaveChanges();
 
             foreach (var image in postViewModel.Images)
             {
-                dataContext.Image.Add(image.Convert());
+                image.idPost = post.Id;
+                if (!this.imageService.AddImage(image)) { 
+                    this.DeletePost(post.Id);
+                    return false;
+                }
             }
 
-            dataContext.SaveChangesAsync();
             return true;
         }
 

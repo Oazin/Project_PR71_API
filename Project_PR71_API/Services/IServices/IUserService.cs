@@ -10,6 +10,8 @@ namespace Project_PR71_API.Services.IServices
 
         public UserViewModel? GetUserByEmail(string email);
 
+        public ICollection<UserViewModel>? ResearchUsers(string searchTerms);
+
         public bool UpdateUser(string email, UserViewModel user);
     }
 }

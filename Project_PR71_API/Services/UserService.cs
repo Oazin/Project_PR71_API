@@ -5,6 +5,7 @@ using Project_PR71_API.Configuration;
 using Project_PR71_API.Models;
 using Project_PR71_API.Models.ViewModel;
 using Project_PR71_API.Services.IServices;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Security.Cryptography;
@@ -33,7 +34,7 @@ namespace Project_PR71_API.Services
                 this.CreateUser(this.ConverteEmailAdress(email));
             }
             
-            SendEmailAsync(email, this.Decrypt(code, "testtesttesttesttest"));
+            SendEmailAsync(email, this.Decrypt(code, "w9H$5aLp2#qJx@8Z"));
         }
 
         private void CreateUser(string email)
@@ -169,8 +170,25 @@ namespace Project_PR71_API.Services
                 }
             }
         }
+
+        public ICollection<UserViewModel>? ResearchUsers(string searchTerms)
+        {
+            if (!string.IsNullOrEmpty(searchTerms))
+            {
+                ICollection<User> users = dataContext.User
+                    .Where(x => x.Username.Contains(searchTerms) ||
+                                x.Name.Contains(searchTerms) ||
+                                x.Firstname.Contains(searchTerms))
+                    .OrderBy(x => x.Username)
+                    .Take(20)
+                    .ToList();
+
+                return users.Select(x => x.Convert()).ToList();
+            }
+
+            return null;
+        }
+
     }
 
 }
-
-

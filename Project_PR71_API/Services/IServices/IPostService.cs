@@ -7,6 +7,8 @@ namespace Project_PR71_API.Services.IServices
     {
         public ICollection<PostViewModel> GetPostsByUser(string userEmail);
 
+        public ICollection<PostViewModel> GetFeed();
+
         public bool AddPost(string userEmail, PostViewModel postViewModel);
 
         public bool DeletePost(int idPost);

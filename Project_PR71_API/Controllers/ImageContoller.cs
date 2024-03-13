@@ -4,7 +4,7 @@ using Project_PR71_API.Models.ViewModel;
 using Project_PR71_API.Services.IServices;
 namespace Project_PR71_API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/Image")]
     public class ImageContoller : ControllerBase
     {
         private readonly IImageService imageService;
