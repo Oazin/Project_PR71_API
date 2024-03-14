@@ -16,7 +16,7 @@ namespace Project_PR71_API.Controllers
         }
 
         [HttpGet]
-        public ICollection<MessageViewModel> GetMessagesByConv([FromQuery] string sender, [FromQuery] string receiver)
+        public ICollection<MessageViewModel> GetMessagesByConv([FromRoute] string sender, [FromRoute] string receiver)
         {
             return messageService.GetMessageByConv(sender, receiver);
         }
@@ -28,13 +28,13 @@ namespace Project_PR71_API.Controllers
         }
 
         [HttpPatch("{idMessage}")]
-        public async Task<bool> UpdateMessage([FromQuery] int idMessage, [FromBody] MessageViewModel messageViewModel)
+        public async Task<bool> UpdateMessage([FromRoute] int idMessage, [FromBody] MessageViewModel messageViewModel)
         {
             return messageService.UpdateMessage(idMessage, messageViewModel);
         }
 
         [HttpDelete("{idMessage}")]
-        public bool DeleteMessage([FromQuery] int idMessage)
+        public bool DeleteMessage([FromRoute] int idMessage)
         {
             return messageService.DeleteMessage(idMessage);
         }

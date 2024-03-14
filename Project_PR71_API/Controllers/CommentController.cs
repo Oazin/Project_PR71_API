@@ -22,7 +22,7 @@ namespace Project_PR71_API.Controllers
         }
 
         [HttpGet("{idPost}")]
-        public ICollection<CommentViewModel> GetCommentsByPost([FromQuery] int idPost)
+        public ICollection<CommentViewModel> GetCommentsByPost([FromRoute] int idPost)
         {
             return commentService.GetCommentsByPost(idPost);
         }

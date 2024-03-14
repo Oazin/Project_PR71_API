@@ -27,43 +27,43 @@ namespace Project_PR71_API.Controllers
         }
 
         [HttpGet("{userEmail}", Name = "GetPostsByUser")]
-        public ICollection<PostViewModel> GetPostsByUser([FromQuery] string userEmail)
+        public ICollection<PostViewModel> GetPostsByUser([FromRoute] string userEmail)
         {
             return postService.GetPostsByUser(userEmail);
         }
 
         [HttpPost("{userEmail}", Name = "AddPost")]
-        public bool AddPost([FromQuery] string userEmail, [FromBody] PostViewModel post)
+        public bool AddPost([FromRoute] string userEmail, [FromBody] PostViewModel post)
         {
             return postService.AddPost(userEmail, post);
         }
 
         [HttpPatch("{idPost}", Name = "UpdatePost")]
-        public bool UpdatePost([FromQuery] int idPost, [FromBody] Post post)
+        public bool UpdatePost([FromRoute] int idPost, [FromBody] Post post)
         {
             return postService.UpdatePost(idPost, post);
         }
 
         [HttpPatch("{idPost}/like", Name = "AddLikes")]
-        public bool AddLike([FromQuery] int idPost, [FromBody] LikeViewModel newLikeViewModel)
+        public bool AddLike([FromRoute] int idPost, [FromBody] LikeViewModel newLikeViewModel)
         {
             return postService.AddLikes(idPost, newLikeViewModel);
         }
 
         [HttpDelete("{idPost}/{emailUser}")]
-        public bool DeleteLike([FromQuery] int idPost, [FromQuery] string emailUser)
+        public bool DeleteLike([FromRoute] int idPost, [FromRoute] string emailUser)
         {
             return postService.DeleteLike(idPost, emailUser);
         }
 
         [HttpGet("{idPost}/{emailUser}")]
-        public bool HadLiked([FromQuery] int idPost, [FromQuery] string emailUser)
+        public bool HadLiked([FromRoute] int idPost, [FromRoute] string emailUser)
         {
             return postService.HadLiked(idPost, emailUser);
         }
 
         [HttpDelete("{idPost}", Name = "DeletePost")]
-        public bool DeletePost([FromQuery] int idPost)
+        public bool DeletePost([FromRoute] int idPost)
         {
             return postService.DeletePost(idPost);
         }

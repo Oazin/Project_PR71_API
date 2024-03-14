@@ -22,7 +22,7 @@ namespace Project_PR71_API.Controllers
         }
 
         [HttpGet("{email}", Name = "GetUserByEmail")]
-        public UserViewModel? GetUserByEmail([FromQuery] string email)
+        public UserViewModel? GetUserByEmail([FromRoute] string email)
         {
             return userService.GetUserByEmail(email);
         }
@@ -35,13 +35,13 @@ namespace Project_PR71_API.Controllers
         }
 
         [HttpPatch("{email}", Name = "UpdateUser")]
-        public bool UpdateUser([FromQuery] string email, [FromBody] UserViewModel user)
+        public bool UpdateUser([FromRoute] string email, [FromBody] UserViewModel user)
         {
             return userService.UpdateUser(email, user);
         }
 
         [HttpGet("research/{searchTerms}", Name = "ResearchUser")]
-        public ICollection<UserViewModel>? ResearchUser([FromQuery] string searchTerms)
+        public ICollection<UserViewModel>? ResearchUser([FromRoute] string searchTerms)
         {
             return userService.ResearchUsers(searchTerms);
         }

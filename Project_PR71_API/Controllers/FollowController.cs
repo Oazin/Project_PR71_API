@@ -16,13 +16,13 @@ namespace Project_PR71_API.Controllers
         }
 
         [HttpGet("followings/{emailUser}")]
-        public ICollection<FollowViewModel> GetFollowings([FromQuery] string emailUser)
+        public ICollection<FollowViewModel> GetFollowings([FromRoute] string emailUser)
         {
             return followService.GetFollowings(emailUser);
         }
 
         [HttpGet("follower/{emailUser}")]
-        public ICollection<FollowViewModel> GetFollowers([FromQuery] string emailUser)
+        public ICollection<FollowViewModel> GetFollowers([FromRoute] string emailUser)
         {
             return followService.GetFollowers(emailUser);
         }
