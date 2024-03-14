@@ -25,9 +25,9 @@ namespace Project_PR71_API.Services
 
             if (comment.Writer == null || comment.Post == null) { return false; }
 
-            dataContext.Comment.AddAsync(comment);
+            dataContext.Comment.Add(comment);
 
-            dataContext.SaveChangesAsync();
+            dataContext.SaveChanges();
 
             return true;
         }

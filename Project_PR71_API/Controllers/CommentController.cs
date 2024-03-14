@@ -15,8 +15,8 @@ namespace Project_PR71_API.Controllers
             this.commentService = commentService;
         }
 
-        [HttpPost]
-        public bool AddComment(CommentViewModel comment)
+        [HttpPost()]
+        public bool AddComment([FromBody] CommentViewModel comment)
         {
             return commentService.AddComment(comment);
         }
