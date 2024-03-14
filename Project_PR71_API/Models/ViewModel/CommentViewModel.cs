@@ -4,7 +4,7 @@
     {
         public int Id { get; set; }
 
-        public User Writer { get; set; }
+        public UserViewModel Writer { get; set; }
 
         public int idPost { get; set; }
 
@@ -16,7 +16,6 @@
             {
                 Id = Id,
                 Content = Content,
-                Writer = Writer,
             };
         }
     }

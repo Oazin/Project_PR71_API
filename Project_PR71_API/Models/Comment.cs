@@ -17,7 +17,7 @@ namespace Project_PR71_API.Models
             return new CommentViewModel
             {
                 Id = Id,
-                Writer = Writer,
+                Writer = Writer.Convert(),
                 idPost = Post.Id,
                 Content = Content,
             }; 
