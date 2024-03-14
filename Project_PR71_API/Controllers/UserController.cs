@@ -22,26 +22,26 @@ namespace Project_PR71_API.Controllers
         }
 
         [HttpGet("{email}", Name = "GetUserByEmail")]
-        public UserViewModel? GetUserByEmail(string email)
+        public UserViewModel? GetUserByEmail([FromQuery] string email)
         {
             return userService.GetUserByEmail(email);
         }
 
         [HttpPost("tryconnection", Name = "ConnectUser")]
-        public bool TryToConnectUser(MailData mailData)
+        public bool TryToConnectUser([FromBody] MailData mailData)
         {
             userService.ConnectUser(mailData.EmailAdress, mailData.Code);
             return true;
         }
 
         [HttpPatch("{email}", Name = "UpdateUser")]
-        public bool UpdateUser(string email, UserViewModel user)
+        public bool UpdateUser([FromQuery] string email, [FromBody] UserViewModel user)
         {
             return userService.UpdateUser(email, user);
         }
 
         [HttpGet("research/{searchTerms}", Name = "ResearchUser")]
-        public ICollection<UserViewModel>? ResearchUser(string searchTerms)
+        public ICollection<UserViewModel>? ResearchUser([FromQuery] string searchTerms)
         {
             return userService.ResearchUsers(searchTerms);
         }

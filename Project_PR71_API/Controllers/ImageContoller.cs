@@ -15,19 +15,19 @@ namespace Project_PR71_API.Controllers
         }
 
         [HttpGet("{idPost}")]
-        public ICollection<ImageViewModel> GetImageByPost(int idPost)
+        public ICollection<ImageViewModel> GetImageByPost([FromQuery] int idPost)
         {
             return imageService.GetImageByPost(idPost);
         }
 
         [HttpPost]
-        public bool AddImage(ImageViewModel imageViewModel)
+        public bool AddImage([FromQuery] ImageViewModel imageViewModel)
         {
             return imageService.AddImage(imageViewModel);
         }
 
         [HttpDelete("{idPost}")]
-        public bool DeleteImage(int idPost)
+        public bool DeleteImage([FromQuery] int idPost)
         {
             return imageService.DeleteImage(idPost);
         }

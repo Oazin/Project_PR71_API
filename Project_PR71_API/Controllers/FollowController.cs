@@ -16,25 +16,25 @@ namespace Project_PR71_API.Controllers
         }
 
         [HttpGet("followings/{emailUser}")]
-        public ICollection<FollowViewModel> GetFollowings(string emailUser)
+        public ICollection<FollowViewModel> GetFollowings([FromQuery] string emailUser)
         {
             return followService.GetFollowings(emailUser);
         }
 
         [HttpGet("follower/{emailUser}")]
-        public ICollection<FollowViewModel> GetFollowers(string emailUser)
+        public ICollection<FollowViewModel> GetFollowers([FromQuery] string emailUser)
         {
             return followService.GetFollowers(emailUser);
         }
 
         [HttpPost]
-        public bool AddFollow(FollowViewModel follow)
+        public bool AddFollow([FromBody] FollowViewModel follow)
         {
             return followService.AddFollow(follow);
         }
 
         [HttpDelete]
-        public bool UnFollow(FollowViewModel follow)
+        public bool UnFollow([FromBody] FollowViewModel follow)
         {
             return followService.UnFollow(follow);
         }
