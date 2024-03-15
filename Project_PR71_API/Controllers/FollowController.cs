@@ -50,5 +50,11 @@ namespace Project_PR71_API.Controllers
         {
             return followService.UnFollow(follow);
         }
+
+        [HttpGet("isfollow/{emailFollower}/{emailFollowing}")]
+        public bool IsFollow([FromRoute] string emailFollower, [FromRoute] string emailFollowing)
+        {
+            return followService.IsFollow(new FollowViewModel { FollowerEmail = emailFollower, FollowingEmail = emailFollowing });
+        }
     }
 }

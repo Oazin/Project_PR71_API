@@ -49,9 +49,9 @@ namespace Project_PR71_API.Services
 
             if (follow.Follower == null || follow.Following == null) { return false; }
 
-            dataContext.Follow.AddAsync(follow);
+            dataContext.Follow.Add(follow);
 
-            dataContext.SaveChangesAsync();
+            dataContext.SaveChanges();
 
             return true;
         }
@@ -67,5 +67,11 @@ namespace Project_PR71_API.Services
 
             return true;
         }
+
+        public bool IsFollow(FollowViewModel followViewModel)
+        {
+            return dataContext.Follow.FirstOrDefault(x => x.FollowerEmail == followViewModel.FollowerEmail && x.FollowingEmail == followViewModel.FollowingEmail) != null;
+        }
+
     }
 }

@@ -11,5 +11,7 @@ namespace Project_PR71_API.Services.IServices
         public bool AddFollow(FollowViewModel follow);
         
         public bool UnFollow(FollowViewModel follow);
+
+        public bool IsFollow(FollowViewModel followViewModel);
     }
 }
