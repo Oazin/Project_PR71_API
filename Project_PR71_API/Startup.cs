@@ -42,6 +42,7 @@ namespace Project_PR71_API
             services.AddScoped<IImageService, ImageService>();
             services.AddScoped<IMessageService, MessageService>();
             services.AddScoped<IFollowService, FollowService>();
+            services.AddScoped<ISavePostService, SavePostService>();
 
             services.AddCors(options =>
             {

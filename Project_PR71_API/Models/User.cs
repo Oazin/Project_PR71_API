@@ -26,6 +26,8 @@ namespace Project_PR71_API.Models
 
         public ICollection<Like>? Likes { get; set; }
 
+        public ICollection<SavePost>? SavePosts { get; set; }
+
         public UserViewModel Convert()
         {
             return new UserViewModel
