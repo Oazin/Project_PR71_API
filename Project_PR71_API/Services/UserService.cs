@@ -24,7 +24,9 @@ namespace Project_PR71_API.Services
 
         public UserViewModel? GetUserByEmail(string email)
         {
-            return this.dataContext.User.FirstOrDefault(x => x.Email == email).Convert();
+            User user = this.dataContext.User.FirstOrDefault(x => x.Email == email);
+            if (user == null) { return null; }
+            return user.Convert();
         }
 
         public void ConnectUser(string email, string code)

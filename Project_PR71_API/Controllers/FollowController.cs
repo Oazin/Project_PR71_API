@@ -27,6 +27,18 @@ namespace Project_PR71_API.Controllers
             return followService.GetFollowers(emailUser);
         }
 
+        [HttpGet("followings/number/{emailUser}")]
+        public int GetNumberFollowings([FromRoute] string emailUser)
+        {
+            return followService.GetFollowings(emailUser).Count();
+        }
+
+        [HttpGet("follower/number/{emailUser}")]
+        public int GetNumberFollowers([FromRoute] string emailUser)
+        {
+            return followService.GetFollowers(emailUser).Count();
+        }
+
         [HttpPost]
         public bool AddFollow([FromBody] FollowViewModel follow)
         {
