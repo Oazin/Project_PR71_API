@@ -6,9 +6,9 @@ namespace Project_PR71_API.Models
     {
         public int Id { get; set; }
 
-        public User Sender { get; set; }
+        public Chat Chat { get; set; }
 
-        public User Receiver { get; set; }
+        public User Sender { get; set; }
 
         public string Content {  get; set; }
 
@@ -17,7 +17,7 @@ namespace Project_PR71_API.Models
             return new MessageViewModel
             {
                 Id = Id,
-                emailReceiver = Receiver.Email,
+                IdChat = Chat.Id,
                 emailSender = Sender.Email,
                 Content = Content,
             };

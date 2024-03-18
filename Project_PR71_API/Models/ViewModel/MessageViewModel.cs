@@ -6,7 +6,7 @@
 
         public string emailSender { get; set; }
 
-        public string emailReceiver { get; set; }
+        public int IdChat { get; set; }
 
         public string Content { get; set; }
 

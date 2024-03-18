@@ -6,7 +6,7 @@ namespace Project_PR71_API.Services.IServices
     {
         public bool SendMessage(MessageViewModel messageViewModel);
 
-        public ICollection<MessageViewModel> GetMessageByConv(string sender, string receiver);
+        public ICollection<MessageViewModel> GetMessageByConv(int IdChat);
 
         public bool DeleteMessage(int idMessage);
 

@@ -21,9 +21,9 @@ namespace Project_PR71_API.Services
             messageViewModel.Id = dataContext.Message.Any() ? dataContext.Message.Max(x => x.Id) + 1 : 1;
 
             Message? message = messageViewModel.Convert();
-            message.Receiver = dataContext.User.FirstOrDefault(x => x.Email == messageViewModel.emailReceiver);
+            message.Chat = dataContext.Chat.FirstOrDefault(x => x.Id == messageViewModel.IdChat);
             message.Sender = dataContext.User.FirstOrDefault(x => x.Email == messageViewModel.emailSender);
-            if (message.Sender == null || message.Receiver == null) { return false; }
+            if (message.Sender == null || message.Chat == null) { return false; }
 
             dataContext.Message.AddAsync(message);
 
@@ -32,21 +32,10 @@ namespace Project_PR71_API.Services
             return true;
         }
 
-        public ICollection<MessageViewModel> GetMessageByConv(string sender, string receiver)
+        public ICollection<MessageViewModel> GetMessageByConv(int idChat)
         {
-            List<Message> messages = dataContext.Message.Include(x => x.Sender).Include(x => x.Receiver).Where(x => (x.Sender.Email == sender && x.Receiver.Email == receiver) || (x.Sender.Email == receiver && x.Receiver.Email == sender)).OrderByDescending(x => x.Id).ToList();
-            List<MessageViewModel> messageViewModels = new List<MessageViewModel>();
-
-
-            foreach (Message message in messages)
-            {
-                message.Sender = dataContext.User.FirstOrDefault(x => x.Email == sender);
-                message.Receiver = dataContext.User.FirstOrDefault(x => x.Email == receiver);
-                if (message.Sender != null && message.Receiver != null) 
-                {
-                    messageViewModels.Add(message.Convert());
-                }
-            }
+            List<Message> messages = dataContext.Message.Include(x => x.Sender).Include(x => x.Chat).Where(x => x.Chat.Id == idChat).OrderByDescending(x => x.Id).ToList();
+            List<MessageViewModel> messageViewModels = messages.Select(x => x.Convert()).ToList();
 
             return messageViewModels;
         }
@@ -65,15 +54,13 @@ namespace Project_PR71_API.Services
 
         public bool UpdateMessage(int idMessage, MessageViewModel message)
         {
-            Message? existingMessage = dataContext.Message.FirstOrDefault(x => x.Id == idMessage);
+            Message? existingMessage = dataContext.Message.Include(x => x.Sender).Include(x => x.Chat).FirstOrDefault(x => x.Id == idMessage);
 
             bool patched = false;
 
             if (existingMessage == null) { return patched; }
 
-            existingMessage.Sender = dataContext.User.FirstOrDefault(x => x.Email == message.emailSender);
-            existingMessage.Receiver = dataContext.User.FirstOrDefault(x => x.Email == message.emailReceiver);
-            if (existingMessage.Sender != null && existingMessage.Receiver != null)
+            if (existingMessage.Sender != null && existingMessage.Chat != null)
             {
                 if (!existingMessage.Content.Equals(message.Content) || string.IsNullOrEmpty(message.Content))
                 {

@@ -43,6 +43,7 @@ namespace Project_PR71_API
             services.AddScoped<IMessageService, MessageService>();
             services.AddScoped<IFollowService, FollowService>();
             services.AddScoped<ISavePostService, SavePostService>();
+            services.AddScoped<IChatService, ChatService>();
 
             services.AddCors(options =>
             {

@@ -22,7 +22,7 @@ namespace Project_PR71_API.Configuration
                 .OnDelete(DeleteBehavior.Restrict);
 
             // Relationship with Receiver
-            builder.HasOne(e => e.Receiver)
+            builder.HasOne(e => e.Chat)
                 .WithMany()
                 .OnDelete(DeleteBehavior.Restrict);
         }
