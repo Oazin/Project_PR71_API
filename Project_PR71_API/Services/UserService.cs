@@ -22,6 +22,11 @@ namespace Project_PR71_API.Services
             this.dataContext = dataContext;
         }
 
+        /// <summary>
+        /// get user by email
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns> ICollections of user view model </returns>
         public UserViewModel? GetUserByEmail(string email)
         {
             User user = this.dataContext.User.FirstOrDefault(x => x.Email == email);
@@ -29,6 +34,11 @@ namespace Project_PR71_API.Services
             return user.Convert();
         }
 
+        /// <summary>
+        /// check if a user exists and send a code to the user email
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="code"></param>
         public void ConnectUser(string email, string code)
         {
             if (this.dataContext.User.FirstOrDefault(x => x.Email == email) == null)
@@ -39,6 +49,10 @@ namespace Project_PR71_API.Services
             SendEmailAsync(email, this.Decrypt(code, "w9H$5aLp2#qJx@8Z"));
         }
 
+        /// <summary>
+        /// create a new user
+        /// </summary>
+        /// <param name="email"></param>
         private void CreateUser(string email)
         {
             User user = new User
@@ -55,6 +69,12 @@ namespace Project_PR71_API.Services
             dataContext.SaveChangesAsync();
         }
 
+
+        /// <summary>
+        /// send a code to the user email for two-step authentication
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="code"></param>
         private void SendEmailAsync(string email, string code)
         {
             var message = new MimeMessage();
@@ -73,12 +93,22 @@ namespace Project_PR71_API.Services
             }
         }
 
+        /// <summary>
+        /// Check if the user email is a UTBM email
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns></returns>
         private string ConverteEmailAdress(string email)
         {
             return email.Split('@')[0] + "@utbm.fr";
         }
 
-        
+        /// <summary>
+        /// Generate a random image with the first character of the user Firstname and LastName
+        /// </summary>
+        /// <param name="fnChar"></param>
+        /// <param name="lnChar"></param>
+        /// <returns></returns>
         public byte[] GenerateImage(string fnChar, string lnChar)
         {
             // Create a new bitmap with specified dimensions
@@ -113,6 +143,12 @@ namespace Project_PR71_API.Services
             return imageBytes;
         }
 
+        /// <summary>
+        /// Update user information
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="userViewModel"></param>
+        /// <returns></returns>
         public bool UpdateUser(string email, UserViewModel userViewModel)
         {
             User user = userViewModel.Convert();
@@ -147,7 +183,12 @@ namespace Project_PR71_API.Services
             return patched;
         }
 
-        
+        /// <summary>
+        /// Decrept the two-step authentication code from the front-end
+        /// </summary>
+        /// <param name="cipherText"></param>
+        /// <param name="key"></param>
+        /// <returns> code decrypted </returns>
         private string Decrypt(string cipherText, string key)
         {
             byte[] keyBytes = Encoding.UTF8.GetBytes(key.Substring(0, 16));
@@ -173,6 +214,11 @@ namespace Project_PR71_API.Services
             }
         }
 
+        /// <summary>
+        /// Research users by username, name or firstname
+        /// </summary>
+        /// <param name="searchTerms"></param>
+        /// <returns> ICollections of 10 users view model </returns>
         public ICollection<UserViewModel>? ResearchUsers(string searchTerms)
         {
             if (!string.IsNullOrEmpty(searchTerms))

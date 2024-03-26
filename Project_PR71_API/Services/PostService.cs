@@ -21,6 +21,10 @@ namespace Project_PR71_API.Services
             this.imageService = imageService;
         }
 
+        /// <summary>
+        /// Get 20 posts for the feed
+        /// </summary>
+        /// <returns> ICollections of Post view model </returns>
         public ICollection<PostViewModel> GetFeed()
         {
             ICollection<Post> posts = dataContext.Post.Include(x => x.User).Include(x => x.Images).Include(x => x.Likes).OrderByDescending(x => x.DateTime).Take(20).ToList();
@@ -157,11 +161,23 @@ namespace Project_PR71_API.Services
             return true;
         }
 
+        /// <summary>
+        /// Check if a post is liked by a user
+        /// </summary>
+        /// <param name="idPost"></param>
+        /// <param name="emailUser"></param>
+        /// <returns> boolean </returns>
         public bool HadLiked(int idPost, string emailUser)
         {
             return (dataContext.Like.FirstOrDefault(x => x.Post.Id == idPost && x.User.Email.Equals(emailUser)) != null);
         }
 
+        /// <summary>
+        /// Delete like
+        /// </summary>
+        /// <param name="idPost"></param>
+        /// <param name="emailUser"></param>
+        /// <returns> boolean </returns>
         public bool DeleteLike(int idPost, string emailUser)
         {
             Like like = dataContext.Like.FirstOrDefault(x => x.Post.Id == idPost && x.User.Email.Equals(emailUser));

@@ -15,6 +15,11 @@ namespace Project_PR71_API.Services
             this.dataContext = dataContext;
         }
 
+        /// <summary>
+        /// Send a message
+        /// </summary>
+        /// <param name="messageViewModel"></param>
+        /// <returns> boolean </returns>
         public bool SendMessage(MessageViewModel messageViewModel)
         {
             if (messageViewModel == null) { return false; }
@@ -32,6 +37,11 @@ namespace Project_PR71_API.Services
             return true;
         }
 
+        /// <summary>
+        /// Get all messages of a conversation
+        /// </summary>
+        /// <param name="idChat"></param>
+        /// <returns> ICollections of messages view model </returns>
         public ICollection<MessageViewModel> GetMessageByConv(int idChat)
         {
             List<Message> messages = dataContext.Message.Include(x => x.Sender).Include(x => x.Chat).Where(x => x.Chat.Id == idChat).OrderByDescending(x => x.Id).ToList();
@@ -40,6 +50,11 @@ namespace Project_PR71_API.Services
             return messageViewModels;
         }
 
+        /// <summary>
+        /// Delete a message
+        /// </summary>
+        /// <param name="idMessage"></param>
+        /// <returns> boolean </returns>
         public bool DeleteMessage(int idMessage)
         {
             Message? msg = dataContext.Message.FirstOrDefault(x => x.Id == idMessage);
@@ -52,6 +67,12 @@ namespace Project_PR71_API.Services
             return true;
         }
 
+        /// <summary>
+        /// Update a message
+        /// </summary>
+        /// <param name="idMessage"></param>
+        /// <param name="message"></param>
+        /// <returns> boolean </returns>
         public bool UpdateMessage(int idMessage, MessageViewModel message)
         {
             Message? existingMessage = dataContext.Message.Include(x => x.Sender).Include(x => x.Chat).FirstOrDefault(x => x.Id == idMessage);

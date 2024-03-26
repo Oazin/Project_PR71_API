@@ -15,6 +15,12 @@ namespace Project_PR71_API.Services
             this.dataContext = dataContext;
         }
 
+        /// <summary>
+        /// Add a post to saved post
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="idPost"></param>
+        /// <returns> boolean </returns>
         public bool AddSavePost(string email, int idPost)
         {
             Post post = dataContext.Post.FirstOrDefault(x => x.Id == idPost);
@@ -35,6 +41,12 @@ namespace Project_PR71_API.Services
             return true;
         }
 
+        /// <summary>
+        /// Delete a post from saved post
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="idPost"></param>
+        /// <returns> boolean </returns>
         public bool DeleteSavePost(string email, int idPost)
         {
             SavePost savePost = dataContext.SavePost.FirstOrDefault(x => x.Post.Id == idPost && x.User.Email == email);
@@ -46,6 +58,11 @@ namespace Project_PR71_API.Services
             return true;
         }
 
+        /// <summary>
+        /// get all saved post of a user
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns>ICollections of post view model</returns>
         public ICollection<SavePostViewModel>? GetSavePostByEmail(string email)
         {
             ICollection<SavePost> savePosts = dataContext.SavePost.Include(x => x.User).Include(x => x.Post).Where(x => x.User.Email == email).OrderByDescending(x => x.Id).ToList();
@@ -58,6 +75,12 @@ namespace Project_PR71_API.Services
             return savePostViewModel;
         }
 
+        /// <summary>
+        /// Check if a post is saved by a user
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="idPost"></param>
+        /// <returns> boolean </returns>
         public bool HadSaved(string email, int idPost)
         {
             SavePost savePost = dataContext.SavePost.FirstOrDefault(x => x.Post.Id == idPost && x.User.Email == email);

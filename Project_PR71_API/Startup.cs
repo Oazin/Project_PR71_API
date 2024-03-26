@@ -20,6 +20,7 @@ namespace Project_PR71_API
 
         public void ConfigureServices(IServiceCollection services)
         {
+            // Add services to the container
             services.AddControllers().AddNewtonsoftJson(options =>
             {
                 options.SerializerSettings.ReferenceLoopHandling = 
@@ -36,6 +37,7 @@ namespace Project_PR71_API
 
             services.AddSwaggerGen();
 
+            // Add services
             services.AddScoped<IPostService, PostService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<ICommentService, CommentService>();
@@ -45,11 +47,11 @@ namespace Project_PR71_API
             services.AddScoped<ISavePostService, SavePostService>();
             services.AddScoped<IChatService, ChatService>();
 
+            // Add authentication
             services.AddCors(options =>
             {
                 options.AddPolicy("AllowUTgramFront", builder => builder
-                    //.WithOrigins("http://localhost:4200")
-                    .AllowAnyOrigin()
+                    .WithOrigins("http://localhost:4200")
                     .AllowAnyMethod()
                     .AllowAnyHeader()
                     .Build()
@@ -58,6 +60,7 @@ namespace Project_PR71_API
 
         }
 
+        // Configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger)
         {
             if (env.IsDevelopment())
@@ -65,34 +68,47 @@ namespace Project_PR71_API
                 app.UseDeveloperExceptionPage();
             }
 
+            // Update database
             UpdateDatabase(app);
 
             app.UseHttpsRedirection();
-
+            
+            // Enable CORS
             app.UseCors("AllowUTgramFront");
 
+            // Enable routing
             app.UseRouting();
 
+            // Enable Swagger
             app.UseSwagger();
 
+            // Enable Swagger UI
             app.UseSwaggerUI();
 
+            // Enable authentication
             app.UseAuthentication();
 
+            // Enable authorization
             app.UseAuthorization();
 
+            // Enable endpoints
             app.UseEndpoints(endpoints =>
             {
+                // Map controllers
                 endpoints.MapControllers();
             });
         }
 
+        // Update database
         public static void UpdateDatabase(IApplicationBuilder app)
         {
+            // Create database if not exists
             using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
             {
+                // Get the database context
                 using (var datacontext = serviceScope.ServiceProvider.GetService<DataContext>())
                 {
+                    // Apply any pending migrations
                     datacontext.Database.Migrate();
                 }
             }

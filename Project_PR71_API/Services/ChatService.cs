@@ -17,6 +17,11 @@ namespace Project_PR71_API.Services
             this.messageService = messageService;
         }
 
+        /// <summary>
+        /// Create a new chat
+        /// </summary>
+        /// <param name="chatViewModel"></param>
+        /// <returns> boolean </returns>
         public bool CreateChat(ChatViewModel chatViewModel)
         {
             if (chatViewModel == null) { return false; }
@@ -37,6 +42,12 @@ namespace Project_PR71_API.Services
             return true;
         }
 
+
+        /// <summary>
+        /// Delete a chat
+        /// </summary>
+        /// <param name="idChat"></param>
+        /// <returns> boolean </returns>
         public bool DeleteChat(int idChat)
         {
             Chat chat = dataContext.Chat.FirstOrDefault(x =>x.Id == idChat);
@@ -48,6 +59,11 @@ namespace Project_PR71_API.Services
             return true;
         }
 
+        /// <summary>
+        /// Get all chat of a user
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns></returns>
         public ICollection<ChatViewModel> GetChatByEmail(string email)
         {
             ICollection<Chat> chats = dataContext.Chat.Include(x => x.User1).Include(x => x.User2).Where(x => x.User1.Email == email || x.User2.Email == email).ToList();

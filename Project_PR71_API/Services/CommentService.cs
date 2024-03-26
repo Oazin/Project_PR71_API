@@ -15,6 +15,11 @@ namespace Project_PR71_API.Services
             this.dataContext = dataContext;
         }
 
+        /// <summary>
+        /// add comment to a post
+        /// </summary>
+        /// <param name="commentViewModel"></param>
+        /// <returns> boolean </returns>
         public bool AddComment(CommentViewModel commentViewModel)
         {
             if (commentViewModel == null) { return false; }
@@ -32,6 +37,11 @@ namespace Project_PR71_API.Services
             return true;
         }
 
+        /// <summary>
+        /// get all comments of a post
+        /// </summary>
+        /// <param name="idPost"></param>
+        /// <returns> ICollection of comments view model </returns>
         public ICollection<CommentViewModel> GetCommentsByPost(int idPost)
         {
             List<Comment> comments = dataContext.Comment.Include(c => c.Writer).Include(c => c.Post).Where(x => x.Post.Id == idPost).OrderBy(x => x.Id).ToList();
@@ -40,6 +50,11 @@ namespace Project_PR71_API.Services
             return commentViewModels;
         }
 
+        /// <summary>
+        /// delete a comment
+        /// </summary>
+        /// <param name="idComment"></param>
+        /// <returns> boolean </returns>
         public bool DeleteComment(int idComment)
         {
             Comment comment = dataContext.Comment.FirstOrDefault(x => x.Id == idComment);

@@ -14,6 +14,11 @@ namespace Project_PR71_API.Services
             this.dataContext = dataContext;
         }
 
+        /// <summary>
+        /// Get all followings of a user
+        /// </summary>
+        /// <param name="emailUser"></param>
+        /// <returns> ICollections of Followers view model </returns>
         public ICollection<FollowViewModel> GetFollowings(string emailUser)
         {
             List<Follow> follows = dataContext.Follow.Where(x => x.FollowerEmail == emailUser).ToList();
@@ -27,6 +32,11 @@ namespace Project_PR71_API.Services
             return followViewModels;
         }
 
+        /// <summary>
+        /// Get all followers of a user
+        /// </summary>
+        /// <param name="emailUser"></param>
+        /// <returns> ICollections of Followers view model </returns>
         public ICollection<FollowViewModel> GetFollowers(string emailUser)
         {
             List<Follow> follows = dataContext.Follow.Where(x => x.FollowingEmail == emailUser).ToList();
@@ -40,6 +50,11 @@ namespace Project_PR71_API.Services
             return followViewModels;
         }
 
+        /// <summary>
+        /// Add a follow
+        /// </summary>
+        /// <param name="followViewModel"></param>
+        /// <returns> boolean </returns>
         public bool AddFollow(FollowViewModel followViewModel)
         {
             if (followViewModel == null) { return false; }
@@ -56,6 +71,11 @@ namespace Project_PR71_API.Services
             return true;
         }
 
+        /// <summary>
+        /// Unfollow a user
+        /// </summary>
+        /// <param name="followViewModel"></param>
+        /// <returns>boolean </returns>
         public bool UnFollow(FollowViewModel followViewModel)
         {
             if (followViewModel == null) { return false; }
@@ -68,6 +88,11 @@ namespace Project_PR71_API.Services
             return true;
         }
 
+        /// <summary>
+        /// Check if a user is following another user
+        /// </summary>
+        /// <param name="followViewModel"></param>
+        /// <returns> boolean </returns>
         public bool IsFollow(FollowViewModel followViewModel)
         {
             return dataContext.Follow.FirstOrDefault(x => x.FollowerEmail == followViewModel.FollowerEmail && x.FollowingEmail == followViewModel.FollowingEmail) != null;
