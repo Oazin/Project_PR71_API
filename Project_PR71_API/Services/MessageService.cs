@@ -30,9 +30,9 @@ namespace Project_PR71_API.Services
             message.Sender = dataContext.User.FirstOrDefault(x => x.Email == messageViewModel.emailSender);
             if (message.Sender == null || message.Chat == null) { return false; }
 
-            dataContext.Message.AddAsync(message);
+            dataContext.Message.Add(message);
 
-            dataContext.SaveChangesAsync();
+            dataContext.SaveChanges();
 
             return true;
         }

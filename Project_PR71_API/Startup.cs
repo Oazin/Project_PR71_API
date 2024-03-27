@@ -51,7 +51,7 @@ namespace Project_PR71_API
             services.AddCors(options =>
             {
                 options.AddPolicy("AllowUTgramFront", builder => builder
-                    .WithOrigins("http://localhost:4200")
+                    .WithOrigins(Configuration.GetSection("CrossOrigin").GetValue<string>("AllowedOrigins"))
                     .AllowAnyMethod()
                     .AllowAnyHeader()
                     .Build()

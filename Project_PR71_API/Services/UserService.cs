@@ -228,7 +228,7 @@ namespace Project_PR71_API.Services
                                 x.Name.ToUpper().Contains(searchTerms.ToUpper()) ||
                                 x.Firstname.ToUpper().Contains(searchTerms.ToUpper()))
                     .OrderBy(x => x.Username.ToUpper())
-                    .Take(10)
+                    .Take(15)
                     .ToList();
 
                 return users.Select(x => x.Convert()).ToList();
