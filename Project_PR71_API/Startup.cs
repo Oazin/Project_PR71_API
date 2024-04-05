@@ -20,7 +20,7 @@ namespace Project_PR71_API
         public static string GetConnectionString(IConfiguration configuration)
         {
             var connectionString = configuration.GetConnectionString("DefaultConnection");
-            var databaseUrl = Environment.GetEnvironmentVariable("AZURE_POSTGRESQL_CONNECTIONSTRING");
+            var databaseUrl = Environment.GetEnvironmentVariable("AIVEN_CONNECTIONSTRING");
             return string.IsNullOrEmpty(databaseUrl) ? connectionString : BuildConnectionString(databaseUrl);
         }
 
