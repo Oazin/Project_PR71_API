@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Npgsql;
 using Project_PR71_API.Configuration;
 using Project_PR71_API.Services;
 using Project_PR71_API.Services.IServices;
@@ -17,30 +16,6 @@ namespace Project_PR71_API
 
         public IConfiguration Configuration { get; }
 
-        public static string GetConnectionString(IConfiguration configuration)
-        {
-            var connectionString = configuration.GetConnectionString("DefaultConnection");
-            var databaseUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
-            return string.IsNullOrEmpty(databaseUrl) ? connectionString : BuildConnectionString(databaseUrl);
-        }
-
-        public static string BuildConnectionString(string databaseUrl)
-        {
-            var databaseUri = new Uri(databaseUrl);
-            var userInfo = databaseUri.UserInfo.Split(':');
-            var builder = new NpgsqlConnectionStringBuilder
-            {
-                Host = databaseUri.Host,
-                Port = databaseUri.Port,
-                Username = userInfo[0],
-                Password = userInfo[1],
-                Database = databaseUri.LocalPath.TrimStart('/'),
-                SslMode = SslMode.Require,
-                TrustServerCertificate = true
-            };
-            return builder.ConnectionString;
-        }
-
         // Add services to the container.
 
         public void ConfigureServices(IServiceCollection services)
@@ -56,7 +31,7 @@ namespace Project_PR71_API
             services.AddHttpClient();
             services.AddEntityFrameworkNpgsql().AddDbContext<DataContext>( opt =>
             {
-                opt.UseNpgsql(GetConnectionString(Configuration));
+                opt.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"));
                 opt.EnableSensitiveDataLogging(true);
             });
 
