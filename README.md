@@ -38,7 +38,7 @@ Finally click on Restore button.
 ## Run
 Start powershell 
 ``` powershell
-    > cd ./path/to/api/file/Project_PR71_API/Project_PR71_API/Project_PR71_API
+    > cd ./path/to/api/file/Project_PR71_API/Project_PR71_API
     > dotnet build
     > dotnet run
 ```
