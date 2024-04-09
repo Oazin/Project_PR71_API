@@ -1,17 +1,13 @@
 # UTGram API
-API for 
+API for the Angular web application 
 
 ## Table of Contents
 
 - [Installation](#installation)
-- [Usage](#usage)
-- [Endpoints](#endpoints)
-- [Authentication](#authentication)
-- [Rate Limiting](#rate-limiting)
-- [Error Handling](#error-handling)
-- [Examples](#examples)
-- [Contributing](#contributing)
-- [License](#license)
+- [Configuration](#configuration)
+- [Migration](#migration)
+- [Run](#run)
+- [Models](#models)
 
 ## Installation
 
@@ -21,39 +17,25 @@ Before running this API, ensure that you have the following installed:
 - [NET 6 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/6.0)
 - [PostgreSQL](https://www.postgresql.org/download/)
 
+## Configuration 
+Before running the API, you need to configure the PostgreSQL connection string in the appsettings.json file located in the project root. Update the ConnectionStrings section with your PostgreSQL connection details.
 
-## Usage
+_Exemple_
+``` json
+"ConnectionStrings": {
+    "DefaultConnection": "Server=localhost; port=5432; user id = postgres; password = 0000; database=utgram; pooling=true; includeErrorDetail=true;"
+}
+```
+## Migration
+If you don't have database migration you can skip this part
 
-Explain how users can interact with your API, including any required parameters and expected responses.
 
-## Endpoints
 
-List all available endpoints along with a brief description of each.
+## Run
+
+## Models
+
 
 - `GET /endpoint`: Description of what this endpoint does.
 - `POST /endpoint`: Description of what this endpoint does.
 - ...
-
-## Authentication
-
-Explain if your API requires authentication, and if so, how users can authenticate themselves.
-
-## Rate Limiting
-
-Detail any rate limiting mechanisms in place and how users can handle them.
-
-## Error Handling
-
-Describe how errors are handled in your API and the format of error responses.
-
-## Examples
-
-Provide some example requests and responses to help users understand how to interact with your API.
-
-## Contributing
-
-Guidelines for contributing to your project, including how to report bugs and suggest improvements.
-
-## License
-
-Specify the license under which your API is distributed.
