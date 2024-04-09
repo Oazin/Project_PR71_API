@@ -15,7 +15,12 @@ API for
 
 ## Installation
 
-Provide instructions on how to install and set up your API.
+Prerequisites
+Before running this API, ensure that you have the following installed:
+
+- [NET 6 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/6.0)
+- [PostgreSQL](https://www.postgresql.org/download/)
+
 
 ## Usage
 
