@@ -12,6 +12,8 @@ namespace Project_PR71_API.Models
 
         public string Content {  get; set; }
 
+        public bool IsRead { get; set; }
+
         public MessageViewModel Convert()
         {
             return new MessageViewModel

@@ -9,5 +9,7 @@ namespace Project_PR71_API.Services.IServices
         public ICollection<ChatViewModel> GetChatByEmail(string email);
 
         public bool DeleteChat(int idChat);
+
+        public ICollection<int> GetNotification(string emailCurrentUser);
     }
 }

@@ -10,12 +10,15 @@
 
         public string Content { get; set; }
 
+        public bool IsRead { get; set; }
+
         public Message Convert()
         {
             return new Message
             {
                 Id = Id,
                 Content = Content,
+                IsRead = IsRead,
             };
         }
     }

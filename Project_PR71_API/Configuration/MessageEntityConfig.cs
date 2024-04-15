@@ -11,6 +11,7 @@ namespace Project_PR71_API.Configuration
             // Columns configuration 
             builder.Property(e => e.Id).IsRequired();
             builder.Property(e => e.Content).IsRequired();
+            builder.Property(e => e.IsRead).IsRequired();
 
             // Primary key
             builder.HasKey(e => e.Id);

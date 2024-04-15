@@ -47,7 +47,21 @@ namespace Project_PR71_API.Services
             List<Message> messages = dataContext.Message.Include(x => x.Sender).Include(x => x.Chat).Where(x => x.Chat.Id == idChat).OrderByDescending(x => x.Id).ToList();
             List<MessageViewModel> messageViewModels = messages.Select(x => x.Convert()).ToList();
 
+            readMessage(messages);
+
             return messageViewModels;
+        }
+
+        public void readMessage(ICollection<Message> messages)
+        {
+            foreach(Message message in messages)
+            {
+                if (message.Sender != null)
+                {
+                    message.IsRead = true;
+                }
+            }
+            dataContext.SaveChangesAsync();
         }
 
         /// <summary>
@@ -93,5 +107,21 @@ namespace Project_PR71_API.Services
 
             return patched;
         }
+
+        /// <summary>
+        /// Check if all message of the chat had been readed
+        /// </summary>
+        /// <param name="idChat"></param>
+        /// <param name="emailSender"></param>
+        /// <returns></returns>
+        public bool HadReaded(int idChat, string emailSender)
+        {
+            if (dataContext.Message.FirstOrDefault(x => x.Sender.Email != emailSender && x.Chat.Id == idChat && x.IsRead == false) == null)
+            {
+                return false;
+            }
+            return true;
+        }
+
     }
 }

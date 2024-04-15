@@ -3,6 +3,7 @@ using Project_PR71_API.Configuration;
 using Project_PR71_API.Models;
 using Project_PR71_API.Models.ViewModel;
 using Project_PR71_API.Services.IServices;
+using System.Collections.Generic;
 
 namespace Project_PR71_API.Services
 {
@@ -71,5 +72,23 @@ namespace Project_PR71_API.Services
 
             return chatViewModels;
         }
+
+        public ICollection<int> GetNotification(string emailCurrentUser)
+        {
+            ICollection<int> idChatList = new List<int>();
+            ICollection <ChatViewModel> chats = GetChatByEmail(emailCurrentUser);
+            foreach (ChatViewModel chat in chats)
+            {
+                if (chat != null)
+                { 
+                    if (messageService.HadReaded(chat.Id, emailCurrentUser))
+                    {
+                        idChatList.Add(chat.Id);
+                    }
+                }
+            }
+            return idChatList;
+        }
+
     }
 }

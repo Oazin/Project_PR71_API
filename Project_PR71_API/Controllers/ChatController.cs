@@ -33,5 +33,10 @@ namespace Project_PR71_API.Controllers
             return chatService.DeleteChat(idChat);
         }
 
+        [HttpGet("notif/{emailCurrentUser}")]    
+        public ICollection<int> GetNotification([FromRoute] string emailCurrentUser)
+        {
+            return chatService.GetNotification(emailCurrentUser);
+        }
     }
 }
