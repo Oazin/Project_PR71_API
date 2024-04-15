@@ -1,7 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Hangfire;
+using Hangfire.PostgreSql;
+using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using Npgsql;
 using Project_PR71_API.Configuration;
+using Project_PR71_API.Jobs;
 using Project_PR71_API.Services;
 using Project_PR71_API.Services.IServices;
 
@@ -10,7 +13,7 @@ namespace Project_PR71_API
     public class Startup
     {
 
-        public Startup(IConfiguration configuration) 
+        public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
@@ -48,17 +51,25 @@ namespace Project_PR71_API
             // Add services to the container
             services.AddControllers().AddNewtonsoftJson(options =>
             {
-                options.SerializerSettings.ReferenceLoopHandling = 
+                options.SerializerSettings.ReferenceLoopHandling =
                     Newtonsoft.Json.ReferenceLoopHandling.Ignore;
             });
 
             services.AddMvc();
             services.AddHttpClient();
-            services.AddEntityFrameworkNpgsql().AddDbContext<DataContext>( opt =>
+            services.AddEntityFrameworkNpgsql().AddDbContext<DataContext>(opt =>
             {
                 opt.UseNpgsql(GetConnectionString(Configuration));
                 opt.EnableSensitiveDataLogging(true);
             });
+
+            services.AddHangfire(x =>
+                {
+                    x.UsePostgreSqlStorage(Configuration.GetConnectionString("DefaultConnection"))
+                   .UseSerializerSettings(new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
+                });
+
+            services.AddHangfireServer();
 
             services.AddSwaggerGen();
 
@@ -98,7 +109,7 @@ namespace Project_PR71_API
             UpdateDatabase(app);
 
             app.UseHttpsRedirection();
-            
+
             // Enable CORS
             app.UseCors("AllowUTgramFront");
 
@@ -107,6 +118,10 @@ namespace Project_PR71_API
 
             // Enable Swagger
             app.UseSwagger();
+
+            // Enable Hangfire
+            app.UseHangfireDashboard("/Hangfire");
+            AddOrUpdateHangfireJob(); // Add or update Hangfire job
 
             // Enable Swagger UI
             app.UseSwaggerUI();
@@ -139,6 +154,11 @@ namespace Project_PR71_API
                 }
             }
         }
-           
+
+        private static void AddOrUpdateHangfireJob()
+        {
+            RecurringJob.AddOrUpdate<StoryJob>("StoryJob", x => x.Execute(), "*/10 * * * *");
+        }
+
     }
 }
