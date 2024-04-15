@@ -1,54 +1,49 @@
 # UTGram API
-API for 
+API for the Angular web application 
 
 ## Table of Contents
 
 - [Installation](#installation)
-- [Usage](#usage)
-- [Endpoints](#endpoints)
-- [Authentication](#authentication)
-- [Rate Limiting](#rate-limiting)
-- [Error Handling](#error-handling)
-- [Examples](#examples)
-- [Contributing](#contributing)
-- [License](#license)
+- [Configuration](#configuration)
+- [Migration](#migration)
+- [Run](#run)
+- [Swagger](#swagger)
 
 ## Installation
 
-Provide instructions on how to install and set up your API.
+Prerequisites
 
-## Usage
+Before running this API, ensure that you have the following installed:
 
-Explain how users can interact with your API, including any required parameters and expected responses.
+- [NET 6 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/6.0)
+- [PostgreSQL](https://www.postgresql.org/download/)
 
-## Endpoints
+## Configuration 
+Before running the API, you need to configure the PostgreSQL connection string in the appsettings.json file located in the project root. Update the ConnectionStrings section with your PostgreSQL connection details.
 
-List all available endpoints along with a brief description of each.
+_Exemple_
+``` json
+"ConnectionStrings": {
+    "DefaultConnection": "Server=localhost; port=5432; user id = postgres; password = YourPSQLPassword; database=utgram; pooling=true; includeErrorDetail=true;"
+}
+```
+## Migration
+If you don't have database migration you can skip this part. 
 
-- `GET /endpoint`: Description of what this endpoint does.
-- `POST /endpoint`: Description of what this endpoint does.
-- ...
+Else launch pgAdmin connect you to the server _PostgreSQL ~16~_ with the password that you defined at the installation of PostgreSQL. <br>
+Then, create a new database with the name _utgram_ (Rigth-Click on Databases -> Create). <br>
+After, Rigth-Click on utgram -> Restore. On the new opened window select the utgram database dump on your computer. <br>
+Finally click on Restore button. 
 
-## Authentication
+## Run
+Start powershell 
+``` powershell
+    > cd ./path/to/api/file/Project_PR71_API/Project_PR71_API
+    > dotnet build
+    > dotnet run
+```
 
-Explain if your API requires authentication, and if so, how users can authenticate themselves.
+## Swagger 
+This API use Swagger to test each endpoint. 
+To access : [http://localhost:5242/swagger/index.html](http://localhost:5242/swagger/index.html)
 
-## Rate Limiting
-
-Detail any rate limiting mechanisms in place and how users can handle them.
-
-## Error Handling
-
-Describe how errors are handled in your API and the format of error responses.
-
-## Examples
-
-Provide some example requests and responses to help users understand how to interact with your API.
-
-## Contributing
-
-Guidelines for contributing to your project, including how to report bugs and suggest improvements.
-
-## License
-
-Specify the license under which your API is distributed.
