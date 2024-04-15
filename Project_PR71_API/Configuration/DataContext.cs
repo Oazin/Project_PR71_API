@@ -25,6 +25,8 @@ namespace Project_PR71_API.Configuration
 
         public DbSet<Chat> Chat { get; set; }
 
+        public DbSet<Story> Story { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -37,6 +39,7 @@ namespace Project_PR71_API.Configuration
             modelBuilder.ApplyConfiguration(new LikeEntityConfig());
             modelBuilder.ApplyConfiguration(new SavePostEntityConfig());
             modelBuilder.ApplyConfiguration(new ChatEntityConfig());
+            modelBuilder.ApplyConfiguration(new StoryEntityConfig());
         }
 
     }

@@ -71,6 +71,7 @@ namespace Project_PR71_API
             services.AddScoped<IFollowService, FollowService>();
             services.AddScoped<ISavePostService, SavePostService>();
             services.AddScoped<IChatService, ChatService>();
+            services.AddScoped<IStoryService, StoryService>();
 
             // Add authentication
             services.AddCors(options =>

@@ -24,6 +24,11 @@ namespace Project_PR71_API.Configuration
             builder.HasMany(e => e.Posts)
                 .WithOne(e => e.User)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            // Relationship with Story
+            builder.HasMany(e => e.Stories)
+                .WithOne(e => e.User)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

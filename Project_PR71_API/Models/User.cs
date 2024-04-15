@@ -28,6 +28,8 @@ namespace Project_PR71_API.Models
 
         public ICollection<SavePost>? SavePosts { get; set; }
 
+        public ICollection<Story> Stories { get; set; }
+
         public UserViewModel Convert()
         {
             return new UserViewModel
