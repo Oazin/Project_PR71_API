@@ -26,7 +26,7 @@ namespace Project_PR71_API.Services
         public int CreateChat(ChatViewModel chatViewModel)
         {
             if (chatViewModel == null) { return 0; }
-            if (dataContext.Chat.FirstOrDefault(x => (x.User1.Email == chatViewModel.User1.Email && x.User2.Email == chatViewModel.User2.Email) || (x.User1.Email == chatViewModel.User2.Email && x.User2.Email == chatViewModel.User1.Email)) != null ) { return false; }
+            if (dataContext.Chat.FirstOrDefault(x => (x.User1.Email == chatViewModel.User1.Email && x.User2.Email == chatViewModel.User2.Email) || (x.User1.Email == chatViewModel.User2.Email && x.User2.Email == chatViewModel.User1.Email)) != null ) { return 0; }
 
             Chat newChat = chatViewModel.Convert();
 
