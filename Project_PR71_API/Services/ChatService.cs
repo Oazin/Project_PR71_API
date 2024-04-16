@@ -23,9 +23,9 @@ namespace Project_PR71_API.Services
         /// </summary>
         /// <param name="chatViewModel"></param>
         /// <returns> boolean </returns>
-        public bool CreateChat(ChatViewModel chatViewModel)
+        public int CreateChat(ChatViewModel chatViewModel)
         {
-            if (chatViewModel == null) { return false; }
+            if (chatViewModel == null) { return 0; }
             if (dataContext.Chat.FirstOrDefault(x => (x.User1.Email == chatViewModel.User1.Email && x.User2.Email == chatViewModel.User2.Email) || (x.User1.Email == chatViewModel.User2.Email && x.User2.Email == chatViewModel.User1.Email)) != null ) { return false; }
 
             Chat newChat = chatViewModel.Convert();
@@ -34,13 +34,13 @@ namespace Project_PR71_API.Services
             newChat.User1 = dataContext.User.FirstOrDefault(x => x.Email == chatViewModel.User1.Email);
             newChat.User2 = dataContext.User.FirstOrDefault(x => x.Email == chatViewModel.User2.Email);
 
-            if (newChat.User1 == null || newChat.User2 == null) { return false; }
+            if (newChat.User1 == null || newChat.User2 == null) { return 0; }
 
             dataContext.Chat.Add(newChat);
 
             dataContext.SaveChanges();
 
-            return true;
+            return newChat.Id;
         }
 
 

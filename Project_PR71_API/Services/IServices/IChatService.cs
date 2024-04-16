@@ -4,7 +4,7 @@ namespace Project_PR71_API.Services.IServices
 {
     public interface IChatService
     {
-        public bool CreateChat(ChatViewModel chatViewModel);
+        public int CreateChat(ChatViewModel chatViewModel);
 
         public ICollection<ChatViewModel> GetChatByEmail(string email);
 

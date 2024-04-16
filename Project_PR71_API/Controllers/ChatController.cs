@@ -16,7 +16,7 @@ namespace Project_PR71_API.Controllers
         }
 
         [HttpPost]
-        public bool CreateChat([FromBody] ChatViewModel chatViewModel)
+        public int CreateChat([FromBody] ChatViewModel chatViewModel)
         {
             return chatService.CreateChat(chatViewModel);
         }
