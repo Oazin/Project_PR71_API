@@ -42,21 +42,21 @@ namespace Project_PR71_API.Services
         /// </summary>
         /// <param name="idChat"></param>
         /// <returns> ICollections of messages view model </returns>
-        public ICollection<MessageViewModel> GetMessageByConv(int idChat)
+        public ICollection<MessageViewModel> GetMessageByConv(int idChat, string emailCurrentUser)
         {
             List<Message> messages = dataContext.Message.Include(x => x.Sender).Include(x => x.Chat).Where(x => x.Chat.Id == idChat).OrderByDescending(x => x.Id).ToList();
             List<MessageViewModel> messageViewModels = messages.Select(x => x.Convert()).ToList();
 
-            readMessage(messages);
+            readMessage(messages, emailCurrentUser);
 
             return messageViewModels;
         }
 
-        public void readMessage(ICollection<Message> messages)
+        public void readMessage(ICollection<Message> messages, string emailCurrentUser)
         {
             foreach(Message message in messages)
             {
-                if (message.Sender != null)
+                if (message.Sender != null && !message.Sender.Email.Equals(emailCurrentUser))
                 {
                     message.IsRead = true;
                 }

@@ -15,10 +15,10 @@ namespace Project_PR71_API.Controllers
             this.messageService = messageService;
         }
 
-        [HttpGet("{idChat}")]
-        public ICollection<MessageViewModel> GetMessagesByConv([FromRoute] int idChat)
+        [HttpGet("{idChat}/{emailCurrentUser}")]
+        public ICollection<MessageViewModel> GetMessagesByConv([FromRoute] int idChat, [FromRoute] string emailCurrentUser)
         {
-            return messageService.GetMessageByConv(idChat);
+            return messageService.GetMessageByConv(idChat, emailCurrentUser);
         }
 
         [HttpPost]
